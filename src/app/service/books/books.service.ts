@@ -9,7 +9,7 @@ import { Ibook } from "./../../components/interface/book";
 export class BooksService {
   constructor(private _HttpClient: HttpClient) {}
 
-  getAllBooks(): Observable<Ibook> {
-    return this._HttpClient.get<Ibook>("http://localhost:5000/book");
+  getAllBooks(): Observable<Ibook[]> {
+    return this._HttpClient.get<Ibook[]>("http://localhost:5000/book");
   }
 }

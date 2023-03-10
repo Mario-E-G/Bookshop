@@ -15,8 +15,7 @@ export class BooksComponent {
   ngOnInit() {
     this._BooksService.getAllBooks().subscribe({
       next: (book) => {
-        // console.log(book);
-        // this.books.push(book);
+        this.books = book;
       },
       error: (err) => {
         console.log(err);
