@@ -1,1 +1,12 @@
-<p>books works!</p>
+<div class="bookshelf">
+    <h3>My Bookshelf</h3>
+    <div class="books">
+        <div class="book" *ngFor="let book of books">
+            <img [src]="book.image_url" alt="{{book.name}}" />
+            <h4>{{book?.name}}</h4>
+            <p>{{book?.author_id?.first_name}}</p>
+            <!-- <button (click)="removeBook(book)">Remove from Shelf</button> -->
+        </div>
+    </div>
+    <p *ngIf="!books" class="alert alert-secondary text-center my-3" >You have no books in your shelf.</p>
+</div>

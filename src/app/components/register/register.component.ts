@@ -87,9 +87,9 @@ export class RegisterComponent implements OnInit {
           this.error =
             "Unable to connect to the server. Please try again later.";
         } else if (error.status === 400) {
-          this.error = error.error.message;
+          this.error = error.error.Message;
         } else if (error.status === 409) {
-          this.error = error.error.message;
+          this.error = error.error.Message;
           setTimeout(() => {
             this.router.navigate(["/login"]);
           }, 3000); // wait for 3 seconds before navigating
