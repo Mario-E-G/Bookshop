@@ -8,7 +8,7 @@ import { Ibook } from "./../interface/book";
   styleUrls: ["./books.component.css"],
 })
 export class BooksComponent {
-  books!: Ibook[];
+  books?: Ibook[]
 
   constructor(private _BooksService: BooksService) {}
 
@@ -22,5 +22,4 @@ export class BooksComponent {
       },
     });
   }
-  // @Input() books: Book
 }

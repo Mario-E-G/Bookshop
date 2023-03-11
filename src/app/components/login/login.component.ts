@@ -37,11 +37,13 @@ export class LoginComponent {
 
   onSubmit(loginForm: FormGroup) {
     this._AuthService.login(loginForm.value).subscribe({
-      next: () => {
-        this.router.navigate(["/book"]);
+      next: (response) => {
+        localStorage.setItem("token", response.token);
+        this._AuthService.detachToken();
+        this.router.navigate(["/"]);
       },
       error: (err) => {
-        this.error = err.error.Message;
+        this.error = err.error.Message;        
       },
     });
 
@@ -51,6 +53,5 @@ export class LoginComponent {
     if (this.loginForm.invalid) {
       return;
     }
-    console.log("Form submitted successfully");
   }
 }

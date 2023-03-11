@@ -68,14 +68,14 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.controls;
   }
 
-  onSubmit(f: FormGroup) {
+  onSubmit(registerForm: FormGroup) {
     this.submitted = true;
     if (this.registerForm.invalid) {
-      console.log(f);
+      console.log(registerForm);
       return;
     }
 
-    this._AuthService.register(f.value).subscribe({
+    this._AuthService.register(registerForm.value).subscribe({
       next: (response) => {
         if (response.status === 200) {
           console.log("Form submitted successfully");
@@ -92,7 +92,7 @@ export class RegisterComponent implements OnInit {
           this.error = error.error.Message;
           setTimeout(() => {
             this.router.navigate(["/login"]);
-          }, 3000); // wait for 3 seconds before navigating
+          }, 5000); // wait for 5 seconds before navigating
         } else {
           this.error = "An unknown error has occurred. Please try again later.";
         }

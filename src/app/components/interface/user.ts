@@ -1,11 +1,11 @@
 export interface User {
-    first_name: String;
-    last_name: String;
-    birth_date?: Date;
-    email: String;
-    address?: String;
-    password: String;
-    gender?: String;
-    image_url?: String;
-  }
-  
+  user_id: string;
+  first_name: string;
+  last_name: string;
+  birth_date?: Date;
+  email: string;
+  address?: string;
+  password: string;
+  gender?: string;
+  image_url?: string;
+}
