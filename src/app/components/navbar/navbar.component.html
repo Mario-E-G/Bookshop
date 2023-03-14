@@ -23,23 +23,21 @@
         <a class="nav-link" routerLink="/aboutus">About</a>
         <!-- <a class="nav-link" data-toggle="modal" data-target="#loginModal">Login</a> -->
       </div>
+
       <div class="navbar-nav ms-auto">
         <a class="nav-link" *ngIf="!islogged" routerLink="/register"
           >Register</a
         >
         <a class="nav-link" *ngIf="!islogged" routerLink="/login">Login</a>
-
-        <!-- <div
+        <div
           *ngIf="islogged"
           class="user-profile btn btn-success btn-md d-flex align-items-center"
         >
-          <a routerLink="/profile/{{ user?.user_id }}" class="mx-2">
+          <a routerLink="/profile/{{ user?.user_id }}" class="mx-4">
             <img src="{{ user?.image_url }}" alt="{{ user?.first_name }}" />
-            {{ user?.first_name | titlecase }}</a
-          > -->
-          <!-- <i class="fa-solid fa-circle-chevron-down"></i> -->
-        <!-- </div> -->
-
+            {{ user?.first_name | titlecase }}
+          </a>
+        </div>
         <a
           class="nav-link"
           *ngIf="islogged"

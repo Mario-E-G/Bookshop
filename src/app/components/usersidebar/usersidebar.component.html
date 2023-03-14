@@ -1,0 +1,44 @@
+<div id="wrapper" class="sidebar bg-secondary">
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <ul class="sidebar-nav d-flex flex-column">
+      <li class="sidebar-brand">
+        <a class="nav-item" routerLink="/profile/{{ user.user_id }}"> All </a>
+      </li>
+      <li>
+        <a
+          class="nav-item"
+          routerLink="/profile/{{ user.user_id }}"
+          [queryParams]="{ filter: 'new' }"
+          (click)="getFilteredBooks($event)"
+          >New</a
+        >
+      </li>
+      <li>
+        <a
+          class="nav-item"
+          routerLink="/profile/{{ user.user_id }}"
+          [queryParams]="{ filter: 'currently_reading' }"
+          >Currently reading</a
+        >
+      </li>
+      <li>
+        <a
+          class="nav-item"
+          routerLink="/profile/{{ user.user_id }}"
+          [queryParams]="{ filter: 'want_to_read' }"
+          >Want to read</a
+        >
+      </li>
+      <li>
+        <a
+          class="nav-item"
+          routerLink="/profile/{{ user.user_id }}"
+          [queryParams]="{ filter: 'read' }"
+          (click)="getFilteredBooks($event)"
+          >Finished</a
+        >
+      </li>
+    </ul>
+  </div>
+</div>

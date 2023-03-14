@@ -1,1 +1,14 @@
-<p>categories works!</p>
+<p *ngIf="!categories" class="alert alert-secondary text-center my-3">
+  You have no Category in your shelf.
+</p>
+
+<div class="container">
+  <div class="row">
+    <div class="col-4 text-center" *ngFor="let category of categories">
+      <img class="w-75" [src]="category.image_url" alt="{{ category.name }}" />
+      <a routerLink="/category/{{category._id}}"
+        ><h2 class="text-center">{{ category.name }}</h2></a
+      >
+    </div>
+  </div>
+</div>

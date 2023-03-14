@@ -1,0 +1,25 @@
+.sidebar {
+  position: fixed;
+  height: 75.9vh;
+  border-radius: 10px;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.12), 0 2px 3px 0 rgba(0, 0, 0, 0.22);
+  width: 35vh;
+}
+ul li {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+}
+ul li:hover {
+  text-decoration: underline #fff 5px;
+  text-underline-offset: 0.5rem;
+}
+
+ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+#sidebar1 {
+}

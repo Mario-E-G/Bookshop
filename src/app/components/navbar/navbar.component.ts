@@ -18,6 +18,7 @@ export class NavbarComponent {
       } else {
         this.islogged = true;
         this.user = this._AuthService.currentLogUser.value;
+        console.log(this.user);
       }
     });
   }
@@ -26,7 +27,5 @@ export class NavbarComponent {
     this._AuthService.logout();
   }
 
-  dropdownMenu() {
-    
-  }
+  dropdownMenu() {}
 }

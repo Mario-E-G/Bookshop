@@ -1,47 +1,33 @@
-<!-- <div class="container">
-  <div class="row">
-    <div class="col-4">
-      <div class="sidebar-filter">
-        <button
-          class="btn btn-primary d-lg-none"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasResponsive"
-          aria-controls="offcanvasResponsive"
+<div class="container-fluid">
+  <div class="row justify-content-between">
+    <app-usersidebar
+      class="col-2"
+      [user]="user"
+    ></app-usersidebar>
+    <div class="col-3" *ngIf="books?.length == 0">
+      <p class="alert alert-warning text-center">No Books Yet</p>
+    </div>
+    <div class="col-4" *ngFor="let book of books">
+      <!-- (filterB)="fillBookArray($event)" -->
+      <div class="content">
+        <img
+          class="w-100"
+          [src]="book?.book_id?.image_url"
+          alt="{{ book?.book_id?.name }}"
+        />
+        <h4>{{ book?.book_id?.name | titlecase }}</h4>
+        <h5>By, {{ book?.book_id?.author_id?.first_name | titlecase }}</h5>
+        <h5>rate: {{ book?.rate }}</h5>
+        <h5>Avg.Rate: {{ book?.average_rate }}</h5>
+        <select
+          class="form-select form-select-sm"
+          aria-label=".form-select-sm example"
         >
-          Toggle offcanvas
-        </button>
-
-        <div class="alert alert-info d-none d-lg-block">
-          Resize your browser to show the responsive offcanvas toggle.
-        </div>
-
-        <div
-          class="offcanvas-lg offcanvas-end"
-          tabindex="-1"
-          id="offcanvasResponsive"
-          aria-labelledby="offcanvasResponsiveLabel"
-        >
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">
-              Responsive offcanvas
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="offcanvas"
-              data-bs-target="#offcanvasResponsive"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="offcanvas-body">
-            <p class="mb-0">
-              This is content within an <code>.offcanvas-lg</code>.
-            </p>
-          </div>
-        </div>
+          <option value="{{ book?.book_status }}">
+            {{ book?.book_status }}
+          </option>
+        </select>
       </div>
     </div>
-    <div class="col-8"></div>
   </div>
-</div> -->
+</div>

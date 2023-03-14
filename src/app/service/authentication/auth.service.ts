@@ -56,6 +56,10 @@ export class AuthService {
     console.log(this.currentLogUser?.value.email);
   }
 
+  getToken() {
+    return localStorage.getItem("token");
+  }
+
   logout() {
     this.currentLogUser.next({
       user_id: "",

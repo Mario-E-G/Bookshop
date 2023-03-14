@@ -19,7 +19,15 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
+import { MatIcon, MatIconModule } from "@angular/material/icon";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { UsersidebarComponent } from "./components/usersidebar/usersidebar.component";
+import { AdminComponent } from "./components/admin/admin.component";
+import { BooksByCatComponent } from "./components/books-by-cat/books-by-cat.component";
+import { BookDetailsComponent } from "./components/book-details/book-details.component";
+import { StarRatingComponent } from "./components/stars-rating/stars-rating.component";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -35,6 +43,11 @@ import { MatIconModule } from "@angular/material/icon";
     FooterComponent,
     HomeComponent,
     ProfileComponent,
+    UsersidebarComponent,
+    AdminComponent,
+    BooksByCatComponent,
+    BookDetailsComponent,
+    StarRatingComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +60,10 @@ import { MatIconModule } from "@angular/material/icon";
     MatMenuModule,
     MatButtonModule,
     MatIconModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

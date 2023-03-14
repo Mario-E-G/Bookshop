@@ -1,0 +1,24 @@
+<p *ngIf="!book" class="alert alert-secondary text-center my-3">
+  Unfortunately, No details for this book.
+</p>
+
+<div class="container">
+  <div class="row">
+    <div class="col-4 text-center">
+      <img
+        class="w-100"
+        [src]="book?.book?.image_url"
+        alt="{{ book?.book?.name }}"
+      />
+      <mat-star-rating
+        [rating]="rating"
+        [starCount]="starCount"
+        [color]="starColor"
+        (ratingUpdated)="onRatingChanged($event)"
+      ></mat-star-rating>
+    </div>
+    <div class="col-8 text-center">
+      <h1 class="text-center">{{ book?.book?.name }}</h1>
+    </div>
+  </div>
+</div>
