@@ -23,19 +23,23 @@ export class LoginComponent {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ["", [Validators.required, Validators.email]],
+      email: ["", [Validators.required]],
       password: [
         "",
         [
           Validators.required,
           Validators.minLength(8),
-          Validators.pattern("^[a-zA-Z0-9]*"),
         ],
       ],
     });
   }
 
   onSubmit(loginForm: FormGroup) {
+
+      // stop here if form is invalid
+      if (this.loginForm.invalid) {
+        return;
+      }
     this._AuthService.login(loginForm.value).subscribe({
       next: (response) => {
         localStorage.setItem("token", response.token);
@@ -49,9 +53,6 @@ export class LoginComponent {
 
     this.submitted = true;
 
-    // stop here if form is invalid
-    if (this.loginForm.invalid) {
-      return;
-    }
+  
   }
 }

@@ -1,10 +1,11 @@
+import { HttpErrorResponse, HttpSentEvent } from "@angular/common/http";
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   Validators,
-  FormControl,
 } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthService } from "src/app/service/authentication/auth.service";
@@ -17,37 +18,52 @@ import { User } from "../interface/user";
 })
 export class RegisterComponent implements OnInit {
   newUser!: User;
-  error?: String;
+  error?: string;
+  choosen?: boolean;
+  registerForm!: FormGroup;
+  selectedFile?: File;
+  submitted = false;
 
   constructor(
-    private _AuthService: AuthService,
+    private authService: AuthService,
     private formBuilder: FormBuilder,
     private router: Router
   ) {}
 
-  registerForm!: FormGroup;
-  submitted = false;
+  ngOnInit(): void {
+    this.buildForm();
+  }
 
-  ngOnInit() {
+  buildForm(): void {
     this.registerForm = this.formBuilder.group(
       {
         first_name: ["", Validators.required],
         last_name: ["", Validators.required],
-        email: ["", [Validators.required, Validators.email]],
-        birth_date: [""],
+        email: [
+          "",
+          [
+            Validators.required,
+            Validators.email,
+            Validators.pattern(
+              /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/
+            ),
+          ],
+        ],
+        birth_date: ["", this.validateBirthDate],
         address: [""],
         password: [
           "",
           [
             Validators.required,
             Validators.minLength(8),
-            Validators.pattern("^[a-zA-Z0-9]*"),
+            Validators.pattern(
+              /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/
+            ),
           ],
         ],
         confirm_password: ["", Validators.required],
         gender: [""],
         image_url: [""],
-        // agree_terms: ['', Validators.required]
       },
       { validator: this.matchingPasswords("password", "confirm_password") }
     );
@@ -64,38 +80,65 @@ export class RegisterComponent implements OnInit {
     };
   }
 
+  validateBirthDate(control: AbstractControl) {
+    const selectedDate = new Date(control.value);
+    const today = new Date();
+
+    if (selectedDate > today) {
+      return { invalidBirthDate: true };
+    }
+    return null;
+  }
+
   get f() {
     return this.registerForm.controls;
   }
 
+  onFileSelected(event: any) {
+    if (event.target.value) {
+      this.selectedFile = event.target.files[0];
+      this.choosen = true;
+    }
+  }
+
   onSubmit(registerForm: FormGroup) {
-    this.submitted = true;
+    console.log(registerForm);
+
     if (this.registerForm.invalid) {
-      console.log(registerForm);
+      console.log("Form is invalid");
+      this.error = "Form is invalid!";
       return;
     }
 
-    this._AuthService.register(registerForm.value).subscribe({
-      next: (response) => {
-        if (response.status === 200) {
+    const formData = new FormData();
+
+    formData.append("first_name", this.f["first_name"].value);
+    formData.append("last_name", this.f["last_name"].value);
+    formData.append("email", this.f["email"].value);
+    formData.append("password", this.f["password"].value);
+    formData.append("gender", this.f["gender"].value);
+    formData.append("address", this.f["address"].value);
+    formData.append("birth_date", this.f["birth_date"].value);
+
+    if (this.selectedFile) {
+      formData.append("image_url", this.selectedFile, this.selectedFile.name);
+    }
+
+    this.authService.register(formData).subscribe({
+      next: (response: any) => {
+        // console.log(response);
+
+        if (response.status == 200) {
           console.log("Form submitted successfully");
+          this.submitted = true;
+        }
+        setTimeout(() => {
           this.router.navigate(["/login"]);
-        }
+        }, 3000);
       },
-      error: (error) => {
-        if (error.status === 0) {
-          this.error =
-            "Unable to connect to the server. Please try again later.";
-        } else if (error.status === 400) {
-          this.error = error.error.Message;
-        } else if (error.status === 409) {
-          this.error = error.error.Message;
-          setTimeout(() => {
-            this.router.navigate(["/login"]);
-          }, 5000); // wait for 5 seconds before navigating
-        } else {
-          this.error = "An unknown error has occurred. Please try again later.";
-        }
+      error: (err) => {
+        this.error = err.error.Message;
+        // console.log(err);
       },
     });
   }
