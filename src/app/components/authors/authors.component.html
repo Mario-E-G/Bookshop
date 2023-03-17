@@ -1,1 +1,14 @@
-<p>authors works!</p>
+<div class="container mt-0">
+    <h1 class="text-center my-4 mt-0">Authors</h1>
+    <div class="row">
+      <div class="col-3" *ngFor="let author of authors">
+        <div class=" card-img-top my-5">
+          <img [src]="author?.image_url" class="card-img-top w-75 h-75" alt="{{author.first_name}}">
+          <div>
+           <a routerLink="/author/{{author._id}}"><h5 class="card-title">{{author.first_name}}{{author.last_name}}</h5></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+

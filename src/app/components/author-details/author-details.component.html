@@ -1,1 +1,59 @@
-<p>author-details works!</p>
+<p *ngIf="!author" class="alert alert-secondary text-center my-3">
+    Unfortunately, No details for this author.
+  </p>
+  <div  class="container my-0 h-50 ">
+    <div class="row">
+      <div class="col-md-3 ">
+        <img class="w-75 image rounded" src="../../../assets/harrz botter writer.jpg" />
+      </div>
+      <div class="col-md-8">
+        <h2 class="head2">
+          <b>{{author?.first_name }} {{ author?.last_name }}</b>
+        </h2>
+        <br />
+        <h3 class="head3 justify">
+          {{author?.date_of_birth | date : "dd/MM/yyyy" }}
+        </h3>
+        <br  />
+        <br  />
+        <p class=" text-justify">{{author?.author_info }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="container py-6 mp-0">
+    <div class="row">
+      <div class="col d-flex justify-content-center" style="color: #1b1745">
+        <h3><b>Authors Books</b></h3>
+      </div>
+    </div>
+  </div>
+  <div class="container" style="border: 5px solid #f4ebebc0; border-radius: 10px; padding: 1rem">
+    <div class="row">
+      <div class="col-2">
+        <img class="ps-2" style="width: 10vw" [src]="author?.image_url" />
+      </div>
+      <div class="col-md-8 my-5">
+        <h4> book_name</h4>
+        <div style="justify-content: end;">
+        <div class="form-group w-25">
+          <select
+            class="form-select selectpicker"
+            id="status"
+            data-style="btn-primary"
+            data-width="fit"
+            data-show-icon="true">
+            <option value="wantToRead" data-icon="bi-bookmark-check">
+              Want to read
+            </option>
+            <option value="currentlyReading" data-icon="bi-bookmark-plus">
+              Currently reading
+            </option>
+            <option value="read" data-icon="bi-bookmark-fill">Read</option>
+          </select>
+        </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  
