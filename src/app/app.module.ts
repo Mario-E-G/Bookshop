@@ -22,12 +22,17 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIcon, MatIconModule } from "@angular/material/icon";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { UsersidebarComponent } from "./components/usersidebar/usersidebar.component";
-import { AdminComponent } from "./components/admin/admin.component";
 import { BooksByCatComponent } from "./components/books-by-cat/books-by-cat.component";
 import { BookDetailsComponent } from "./components/book-details/book-details.component";
 import { StarRatingComponent } from "./components/stars-rating/stars-rating.component";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { AuthorDetailsComponent } from "./components/author-details/author-details.component";
+import { CategoryComponent } from './components/admin/category/category.component';
+import { BookComponent } from './components/admin/book/book.component';
+import { AuthorComponent } from './components/admin/author/author.component';
+import { UserComponent } from './components/admin/user/user.component';
 
 @NgModule({
   declarations: [
@@ -44,10 +49,14 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     HomeComponent,
     ProfileComponent,
     UsersidebarComponent,
-    AdminComponent,
     BooksByCatComponent,
     BookDetailsComponent,
     StarRatingComponent,
+    AuthorDetailsComponent,
+    CategoryComponent,
+    BookComponent,
+    AuthorComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,6 +73,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     MatIconModule,
     MatTooltipModule,
     MatSnackBarModule,
+    MatFormFieldModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

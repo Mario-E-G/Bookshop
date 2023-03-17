@@ -6,48 +6,48 @@ import {
   EventEmitter,
   ViewEncapsulation,
 } from "@angular/core";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 
 @Component({
-  selector: "mat-star-rating",
+  selector: "mat-stars-rating",
   templateUrl: "./stars-rating.component.html",
   styleUrls: ["./stars-rating.component.css"],
 })
 export class StarRatingComponent implements OnInit {
   @Input("rating") rating: number = 3;
   @Input("starCount") starCount: number = 5;
-  @Input("color") color: string = "accent";
+  @Input("color") color: string = "danger";
   @Output() ratingUpdated = new EventEmitter();
 
   snackBarDuration: number = 2000;
-  ratingArr = [];
 
-  constructor(private snackBar: MatSnackBarModule) {}
+  ratingArr: string[] = [];
+
+  constructor(private _snackBar: MatSnackBar) {}
 
   ngOnInit() {
-    console.log("a " + this.starCount);
-    // for (let index = 0; index < this.starCount; index++) {
-    //   this.ratingArr.push(index);
-    // }
+    for (let index = 1; index < this.starCount + 1; index++) {
+      this.ratingArr.push(JSON.stringify(index));
+    }
   }
   onClick(rating: number) {
-    console.log(rating);
-    // this.snackBar(
-    //   "You rated " + rating + " / " + this.starCount,
-    //   "",
-    //   {
-    //     duration: this.snackBarDuration,
-    //   }
-    // );
+    this._snackBar.open(
+      "You rated " + rating + " / " + this.starCount,
+      "HAPPY",
+      {
+        duration: this.snackBarDuration,
+      }
+    );
+
     this.ratingUpdated.emit(rating);
     return false;
   }
 
   showIcon(index: number) {
     if (this.rating >= index + 1) {
-      return "star";
+      return "favorite";
     } else {
-      return "star_border";
+      return "favorite_border";
     }
   }
 }
@@ -55,4 +55,5 @@ export enum StarRatingColor {
   primary = "primary",
   accent = "accent",
   warn = "warn",
+  danger = "danger",
 }

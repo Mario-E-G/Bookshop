@@ -1,13 +1,70 @@
-<div class="container-fluid">
+<div class="container-fluid height-100 bg-light">
   <div class="row justify-content-between">
-    <app-usersidebar
-      class="col-2"
-      [user]="user"
-    ></app-usersidebar>
-    <div class="col-3" *ngIf="books?.length == 0">
+    <!-- <mat-drawer-container class="example-container col-8" autosize>
+      <mat-drawer #drawer class="example-sidenav" mode="side">
+        <div id="wrapper" class="sidebar bg-secondary">
+          
+          <div id="sidebar-wrapper">
+            <ul class="sidebar-nav d-flex flex-column">
+              <li class="sidebar-brand">
+                <a
+                  class="nav-item"
+                  routerLink="/profile/{{ user.user_id }}"
+                  [queryParams]="{ filter: 'all' }"
+                >
+                  All
+                </a>
+              </li>
+              <li>
+                <a
+                  class="nav-item"
+                  routerLink="/profile/{{ user.user_id }}"
+                  [queryParams]="{ filter: 'new' }"
+                  >New</a
+                >
+              </li>
+              <li>
+                <a
+                  class="nav-item"
+                  routerLink="/profile/{{ user.user_id }}"
+                  [queryParams]="{ filter: 'currently_reading' }"
+                  >Currently reading</a
+                >
+              </li>
+              <li>
+                <a
+                  class="nav-item"
+                  routerLink="/profile/{{ user.user_id }}"
+                  [queryParams]="{ filter: 'want_to_read' }"
+                  >Want to read</a
+                >
+              </li>
+              <li>
+                <a
+                  class="nav-item"
+                  routerLink="/profile/{{ user.user_id }}"
+                  [queryParams]="{ filter: 'read' }"
+                  >Finished</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </mat-drawer>
+
+      <div class="example-sidenav-content">
+        <button type="button" mat-button (click)="drawer.toggle()">
+          Toggle sidenav
+        </button>
+      </div>
+    </mat-drawer-container> -->
+    <div
+      class="col-4 w-100 d-flex justify-content-center"
+      *ngIf="books?.length == 0"
+    >
       <p class="alert alert-warning text-center">No Books Yet</p>
     </div>
-    <div class="col-4" *ngFor="let book of books">
+    <div class="col-3" *ngFor="let book of books">
       <!-- (filterB)="fillBookArray($event)" -->
       <div class="content">
         <img

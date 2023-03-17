@@ -18,8 +18,9 @@ export class BookDetailsComponent {
     private _Router: ActivatedRoute
   ) {}
 
-  rating: number = 3;
+  rating: number = 0;
   starCount: number = 5;
+  avgRate!: number;
   starColor: StarRatingColor = StarRatingColor.accent;
   starColorP: StarRatingColor = StarRatingColor.primary;
   starColorW: StarRatingColor = StarRatingColor.warn;
@@ -35,9 +36,14 @@ export class BookDetailsComponent {
     });
 
     this._BookService.getBookById(this.book_id).subscribe((book) => {
-      console.log(book);
-
       this.book = book;
+    });
+    this.avgRate = this.book;
+  }
+
+  addReview() {
+    this._BookService.addBookReview(this.book_id).subscribe((book) => {
+      console.log(book);
     });
   }
 }

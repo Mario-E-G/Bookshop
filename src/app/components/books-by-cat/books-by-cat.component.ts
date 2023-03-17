@@ -11,7 +11,7 @@ import { Ibook } from "../interface/book";
 })
 export class BooksByCatComponent {
   categoryId!: any;
-  books!: Ibook[];
+  books!: any[];
 
   constructor(
     private _BooksByCategory: CategoryService,

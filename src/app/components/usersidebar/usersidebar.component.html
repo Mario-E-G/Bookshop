@@ -3,16 +3,22 @@
   <div id="sidebar-wrapper">
     <ul class="sidebar-nav d-flex flex-column">
       <li class="sidebar-brand">
-        <a class="nav-item" routerLink="/profile/{{ user.user_id }}"> All </a>
+        <a
+          class="nav-item"
+          routerLink="/profile/{{ user.user_id }}"
+          [queryParams]="{ filter: 'all' }"
+        >
+          All
+        </a>
       </li>
       <li>
         <a
           class="nav-item"
           routerLink="/profile/{{ user.user_id }}"
           [queryParams]="{ filter: 'new' }"
-          (click)="getFilteredBooks($event)"
           >New</a
         >
+        <!-- (click)="getFilteredBooks($event)" -->
       </li>
       <li>
         <a
@@ -35,7 +41,6 @@
           class="nav-item"
           routerLink="/profile/{{ user.user_id }}"
           [queryParams]="{ filter: 'read' }"
-          (click)="getFilteredBooks($event)"
           >Finished</a
         >
       </li>

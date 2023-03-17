@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this._AuthService.currentLogUser.getValue() == null) {
+    if (this._AuthService.getToken() == null) {
       this._Router.navigate(["/login"]);
       return false;
     } else {

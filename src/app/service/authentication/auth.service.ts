@@ -53,7 +53,6 @@ export class AuthService {
   detachToken() {
     this.token = localStorage.getItem("token");
     this.currentLogUser.next(jwtDecode(this.token));
-    console.log(this.currentLogUser?.value.email);
   }
 
   getToken() {

@@ -102,10 +102,13 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(registerForm: FormGroup) {
-    console.log(registerForm);
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
 
     if (this.registerForm.invalid) {
-      console.log("Form is invalid");
       this.error = "Form is invalid!";
       return;
     }
@@ -126,19 +129,20 @@ export class RegisterComponent implements OnInit {
 
     this.authService.register(formData).subscribe({
       next: (response: any) => {
-        // console.log(response);
-
-        if (response.status == 200) {
-          console.log("Form submitted successfully");
+        if (response.status == 201) {
           this.submitted = true;
+          setTimeout(() => {
+            this.router.navigate(["/login"]);
+          }, 3000);
         }
-        setTimeout(() => {
-          this.router.navigate(["/login"]);
-        }, 3000);
+        if (response.status == 409) {
+          setTimeout(() => {
+            this.router.navigate(["/login"]);
+          }, 3000);
+        }
       },
       error: (err) => {
         this.error = err.error.Message;
-        // console.log(err);
       },
     });
   }

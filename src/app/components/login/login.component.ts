@@ -24,22 +24,20 @@ export class LoginComponent {
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: ["", [Validators.required]],
-      password: [
-        "",
-        [
-          Validators.required,
-          Validators.minLength(8),
-        ],
-      ],
+      password: ["", [Validators.required, Validators.minLength(8)]],
     });
   }
 
   onSubmit(loginForm: FormGroup) {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
 
-      // stop here if form is invalid
-      if (this.loginForm.invalid) {
-        return;
-      }
+    if (this.loginForm.invalid) {
+      return;
+    }
     this._AuthService.login(loginForm.value).subscribe({
       next: (response) => {
         localStorage.setItem("token", response.token);
@@ -47,12 +45,10 @@ export class LoginComponent {
         this.router.navigate(["/"]);
       },
       error: (err) => {
-        this.error = err.error.Message;        
+        this.error = err.error.Message;
       },
     });
 
     this.submitted = true;
-
-  
   }
 }

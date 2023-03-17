@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "./auth.guard";
 import { AboutComponent } from "./components/about/about.component";
-import { AdminComponent } from "./components/admin/admin.component";
+import { AuthorDetailsComponent } from "./components/author-details/author-details.component";
 import { AuthorsComponent } from "./components/authors/authors.component";
 import { BookDetailsComponent } from "./components/book-details/book-details.component";
 import { BooksByCatComponent } from "./components/books-by-cat/books-by-cat.component";
@@ -17,8 +17,9 @@ import { RegisterComponent } from "./components/register/register.component";
 const routes: Routes = [
   { path: "", component: HomeComponent },
   { path: "books", component: BooksComponent },
-  { path: "book/:id", component: BookDetailsComponent },
+  { path: "book-details/:id", component: BookDetailsComponent },
   { path: "authors", component: AuthorsComponent },
+  { path: "author/:id", component: AuthorDetailsComponent },
   { path: "categories", component: CategoriesComponent },
   { path: "category/:id", component: BooksByCatComponent },
   { path: "aboutus", component: AboutComponent },
@@ -28,7 +29,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: ProfileComponent,
   },
-  { path: "admin", component: AdminComponent },
   { path: "register", component: RegisterComponent },
   { path: "login", component: LoginComponent },
   { path: "**", component: NotfoundComponent },

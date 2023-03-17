@@ -27,8 +27,6 @@ export class CategoryService {
   }
 
   getBooksByCategoryId(categoryId: any): Observable<Ibook[]> {
-    console.log("id: " + categoryId);
-
     return this._HttpClient.get<Ibook[]>(
       `http://localhost:5000/category/${categoryId}`,
       this.requestOptions

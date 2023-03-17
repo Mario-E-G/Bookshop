@@ -15,19 +15,38 @@ export class ProfileComponent {
   user!: User;
   books?: bookReview[];
   filter!: ParamMap;
+  filtered_books?: bookReview[];
+  showFiller = false;
 
   constructor(
     private _UserService: AuthService,
     private _BookService: BooksService,
     private _Router: ActivatedRoute
-  ) {}
-
-  ngOnInit() {
-    this.user = this._UserService.currentLogUser.value;
-    this._BookService
-      .getAllbooksForSpecificUser(this.user.user_id)
-      .subscribe((book) => {
-        this.books = book;
-      });
+  ) {
+    this._Router.queryParamMap.subscribe((query) => {
+      this.filter = query;
+      // console.log(query.get("filter"));
+      this.user = this._UserService.currentLogUser.value;
+      this._BookService
+        .getBookWithStatus(this.user.user_id, this.filter.get("filter"))
+        .subscribe((book) => {
+          this.books = book;
+          console.log(book);
+        });
+    });
   }
+
+
+
+
+
+
+
+
+
+  
+
+  ngOnInit() {}
+
+  /*******************************sidebar*********************** */
 }

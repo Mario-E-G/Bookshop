@@ -24,18 +24,14 @@ export class UsersidebarComponent {
 
   ngOninit() {}
 
-  getFilteredBooks(event: any) {
-    this._Router.queryParamMap.subscribe((query) => {
-      this.filter = query;
-
-      this._BookService
-        .getBookWithStatus(this.user?.user_id, this.filter.get("filter"))
-        .subscribe((books) => {
-          this.filteredBooks = books;
-          this.filteredBooks = event as bookReview[];
-          this.newItemEvent.emit(this.filteredBooks);
-          console.log(this.filteredBooks);
-        });
-    });
-  }
+  // getFilteredBooks(event: any) {
+  //   this._BookService
+  //     .getBookWithStatus(this.user?.user_id, this.filter.get("filter"))
+  //     .subscribe((books) => {
+  //       this.filteredBooks = books;
+  //       this.filteredBooks = event as bookReview[];
+  //       this.newItemEvent.emit(this.filteredBooks);
+  //       console.log(this.filteredBooks);
+  //     });
+  // }
 }

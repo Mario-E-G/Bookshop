@@ -1,8 +1,8 @@
 <nav
-  class="navbar navbar-expand-lg navbar-dark bg-dark bg-body-tertiary fixed-top"
+  class="navbar navbar-expand-lg navbar-light"
 >
   <div class="container">
-    <a class="navbar-brand" routerLink="/">My Bookstore</a>
+    <a class="navbar-brand" routerLink="/"><img class="w-25 h-25" src="../../../assets/logo2x.png" alt="Logo"></a>
     <button
       class="navbar-toggler"
       type="button"
@@ -29,11 +29,16 @@
           >Register</a
         >
         <a class="nav-link" *ngIf="!islogged" routerLink="/login">Login</a>
+        <a class="nav-link" *ngIf="!islogged" routerLink="/login">Admin</a>
         <div
           *ngIf="islogged"
           class="user-profile btn btn-success btn-md d-flex align-items-center"
         >
-          <a routerLink="/profile/{{ user?.user_id }}" class="mx-4">
+          <a
+            routerLink="/profile/{{ user?.user_id }}"
+            class="mx-4"
+            [queryParams]="{ filter: 'all' }"
+          >
             <img src="{{ user?.image_url }}" alt="{{ user?.first_name }}" />
             {{ user?.first_name | titlecase }}
           </a>

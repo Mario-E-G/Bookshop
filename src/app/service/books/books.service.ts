@@ -5,6 +5,7 @@ import {
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { bookReview } from "src/app/components/interface/bookReview";
 import { AuthService } from "../authentication/auth.service";
 import { Ibook } from "./../../components/interface/book";
 
@@ -24,6 +25,23 @@ export class BooksService {
   getAllBooks(): Observable<Ibook[]> {
     return this._HttpClient.get<Ibook[]>(
       "http://localhost:5000/book",
+      this.requestOptions
+    );
+  }
+
+  updateBookRate(updatedBook: any): Observable<bookReview> {
+    return this._HttpClient.patch<bookReview>(
+      "http://localhost:5000/profile/bookReview",
+      updatedBook,
+      this.requestOptions
+    );
+  }
+
+  addBookReview(book_id: any): Observable<bookReview> {
+    // console.log("header: ",this.headers);
+    return this._HttpClient.post<bookReview>(
+      "http://localhost:5000/profile/bookReview",
+      { book_id },
       this.requestOptions
     );
   }
