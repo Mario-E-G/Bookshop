@@ -10,3 +10,21 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+
+.custom-scroll {
+  position: fixed;
+  bottom: 20px;
+  right: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.2s ease-in-out;
+  background-color:inherit;
+  border: none;
+  border-radius: 50%;
+  opacity: 50%;
+}
+
+.scrolltop-button:hover {
+  cursor: pointer;
+  opacity: 0.8;
+} 

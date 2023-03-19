@@ -1,17 +1,267 @@
-<!-- <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
-  <div class="toast" style="position: absolute; top: 0; right: 0;">
-    <div class="toast-header">
-      <img src="..." class="rounded mr-2" alt="...">
-      <strong class="mr-auto">Bootstrap</strong>
-      <small>11 mins ago</small>
-      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+<!-- <div class="container-fluid my-2">
+  <div id="imageCarousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li *ngFor="let image of images; let i = index" [class.active]="i === currentImageIndex"
+        (click)="currentImageIndex = i"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div *ngFor="let image of images; let i = index" class="carousel-item" [class.active]="i === currentImageIndex">
+        <img class="d-block w-100 img-fluid " [src]="image" alt="Slide {{i+1}} ">
+      </div>
     </div>
-    <div class="toast-body">
-      Hello, world! This is a toast message.
+    <a class="carousel-control-prev" (click)="previousImage()" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" (click)="nextImage()" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div> -->
+
+<div class="container-fluid my-2">
+  <div class="slider-wrapper">
+    
+    <div id="imageCarousel" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li *ngFor="let image of images; let i = index" [class.active]="i === currentImageIndex"
+          (click)="currentImageIndex = i"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="slider-text">
+          <h2>Welcome to our Project</h2>
+        </div>
+        <div *ngFor="let image of images; let i = index" class="carousel-item" [class.active]="i === currentImageIndex">
+          <img class="d-block w-100 img-fluid " [src]="image" alt="Slide {{i+1}} ">
+        </div>
+      </div>
+      <a class="carousel-control-prev" (click)="previousImage()" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" (click)="nextImage()" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ////////////// -->
+
+
+<div class="container-fluid my-5 w-75">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="text-black">NEW <span class="text-danger">BOOKS</span></h1>
+      <p class="mb-4">Check out our latest selection of must-read books!</p>
+    </div>
+  </div>
+  <div class="row justify-content-center align-items-top">
+    <div class="col-12 col-md-6 col-lg-3 d-flex flex-column justify-content-top align-items-center" *ngFor="let book of books">
+      <div class="card mb-4 mx-2 my-2 custom-card">
+        <img [src]="book.image_url" alt="{{ book.name }}" class="card-img-top img-fluid">
+        <div class="card-body">
+          <h4 class="card-title text-center">{{ book?.name }}</h4>
+          <p class="card-text text-center">{{ book?.author_id?.first_name }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid  my-2 ">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1>
+        <span class="text-black">STAY WITH US</span>
+      </h1>
+      <p>Register to our BookShop now and stay up-to-date with new books!</p>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="col-12 w-100">
+      <img class="w-100" src="../../../assets/section2.jpg" alt="">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- /////////////// popular authors///////////// -->
+
+<!-- <div class="container my-5">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="text-black">POPULAR <span class="text-danger">AUTHORS</span></h1>
+      <p class="mb-4">Explore our selection of books from the world's most popular authors.</p>
+    </div>
+  </div>
+  <div class="row justify-content-center align-items-center">
+    <div class="col-12 col-md-4 col-lg-3" *ngFor="let author of authors">
+      <div class="card mb-4 mx-2 my-2">
+        <img [src]="author.image_url" alt="{{ author.first_name }} {{ author.last_name }}" class="card-img-top ">
+        <div class="card-body">
+          <h4 class="card-title text-center">{{ author?.first_name }} {{ author?.last_name }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+<!-- ///////////////// our team //////////////// -->
+<div class="container-fluid my-5">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="animate__animated animate__fadeInUp">Meet Our Team</h1>
+      <p class="animate__animated animate__fadeInUp">Learn about the talented designers who created BookCrate.</p>
+    </div>
+  </div>
+  <div class="row justify-content-center align-items-center">
+    <div class="col-12 col-md-6 col-lg-3 mb-4 animate__animated animate__fadeInUp text-center">
+      <div class="card h-100 card-img-top">
+        <img src="../../../assets/profile.jpg" alt="Designer 1" >
+        <div class="card-body">
+          <h4 class="card-title">Salama Hassanein</h4>
+          <p class="card-text">Title 1</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3 mb-4 animate__animated animate__fadeInUp text-center">
+      <div class="card h-100 card-img-top">
+        <img src="../../../assets/profile.jpg" alt="Designer 2" >
+        <div class="card-body">
+          <h4 class="card-title">Designer 2</h4>
+          <p class="card-text">Title 2</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3 mb-4 animate__animated animate__fadeInUp text-center">
+      <div class="card h-100 card-img-top">
+        <img src="../../../assets/profile.jpg" alt="Designer 3" >
+        <div class="card-body">
+          <h4 class="card-title">Designer 3</h4>
+          <p class="card-text">Title 3</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3 mb-4 animate__animated animate__fadeInUp text-center">
+      <div class="card h-100 card-img-top">
+        <img src="../../../assets/profile.jpg" alt="Designer 4" >
+        <div class="card-body">
+          <h4 class="card-title">Designer 4</h4>
+          <p class="card-text">Title 4</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="container-fluid my-5">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="animate__animated animate__fadeInUp">Meet Our Team</h1>
+      <p class="animate__animated animate__fadeInUp">Learn about the talented designers who created BookCrate.</p>
+    </div>
+  </div>
+  <div class="row justify-content-center align-items-center">
+    <div class="col-12 col-md-6 col-lg-3 mb-4 animate__animated animate__fadeInUp" *ngFor="let designer of designers">
+      <div class="card h-100 card-img-top">
+        <img [src]="designer.image" alt="{{ designer.name }}" >
+        <div class="card-body">
+          <h4 class="card-title">{{ designer.name }}</h4>
+          <p class="card-text">{{ designer.title }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </div> -->
 
-<h1>Home</h1>
+<!-- ///////////////// about the project/////////////////// -->
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="text-black">ABOUT <span class="text-danger">BOOKCRATE</span></h1>
+      <p class="mb-4">BookCrate is a platform for book lovers to discover and purchase their favorite books online.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ///////////////footer////// -->
+
+
+
+
+
+<!-- ///////Register Section: /////// -->
+<!-- <div class="reg-img container-fluid p-0 position-relative" style="height: 600px;">
+  <div class="row">
+    <div class="h-100 col-md-6 offset-md-3 d-flex flex-column justify-content-center align-items-end text-black text-center">
+      <h1 class="mb-4">STAY WITH US</h1>
+      <p class="mb-5">Register to our BookShop now and stay up-to-date with new books!</p>
+      <a href="#" class="btn btn-primary">Register</a>
+    </div>
+  </div>
+</div> -->
+
+<!-- ///////Image Carousel Section://///// -->
+
+<!-- <div class="container-fluid my-2">
+  <div id="imageCarousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li *ngFor="let image of images; let i = index" [class.active]="i === currentImageIndex"
+        (click)="currentImageIndex = i"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div *ngFor="let image of images; let i = index" class="carousel-item" [class.active]="i === currentImageIndex">
+        <img class="d-block w-100 img-fluid" [src]="image" alt="Slide {{i+1}}">
+      </div>
+    </div>
+    <a class="carousel-control-prev" (click)="previousImage()" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" (click)="nextImage()" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div> -->
+
+
+<!-- ///////// New Books Section:////////////// -->
+
+
+<!-- <div class="container-fluid my-5 w-75">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="text-black">NEW <span class="text-danger">BOOKS</span></h1>
+      <p class="mb-4">Check out our latest selection of must-read books!</p>
+    </div>
+  </div>
+  <div class="row justify-content-center align-items-top">
+    <div class="col-12 col-md-4 col-lg-3" *ngFor="let book of books">
+      <div class="card mb-4 mx-2 my-2">
+        <img [src]="book.image_url" alt="{{ book.name }}" class="card-img-top img-fluid">
+        <div class="card-body">
+          <h4 class="card-title text-center">{{ book?.name }}</h4>
+          <p class="card-text text-center">{{ book?.author_id?.first_name }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+<!-- ////////////About the Project Section://///////// -->
+
+
+
+<app-scrolltop class="custom-scroll"></app-scrolltop>

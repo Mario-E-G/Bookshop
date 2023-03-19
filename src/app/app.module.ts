@@ -33,6 +33,7 @@ import { CategoryComponent } from './components/admin/category/category.componen
 import { BookComponent } from './components/admin/book/book.component';
 import { AuthorComponent } from './components/admin/author/author.component';
 import { UserComponent } from './components/admin/user/user.component';
+import { ScrollToTopButtonComponent } from './components/scroll-to-top-button/scroll-to-top-button.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { UserComponent } from './components/admin/user/user.component';
     BookComponent,
     AuthorComponent,
     UserComponent,
+    ScrollToTopButtonComponent,
   ],
   imports: [
     BrowserModule,

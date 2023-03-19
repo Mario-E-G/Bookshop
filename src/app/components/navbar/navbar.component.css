@@ -1,10 +1,196 @@
+/* @import "~@fortawesome/fontawesome-free/css/all.min.css";
+.navbar-toggler .fa-arrow-circle-down {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+ */
+#icon{
+  position:absolute;
+  top: 0;
+  right: 0; 
+}
+nav .navbar-collapse {
+  transition: height 0.3s ease-in-out;
+}
+
+/* .navbar-toggler-arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 5px 0 5px;
+  border-color: #fff transparent transparent transparent;
+  margin-left: 5px;
+  transition: transform 0.3s ease-in-out;
+} */
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-arrow {
+  transform: rotate(180deg);
+}
+
+.navbar {
+position: relative;
+  
+  width: 100%;
+  /* height: 100%; */
+  z-index: 999;
+  transition: top 0.5s;
+}
+
+.navbar-brand {
+  color: #fff;
+}
+.nav-link {
+  font-size: 16px;
+  color: #555;
+  margin-left: 20px;
+}
+
+.nav-link:hover {
+  color: #f45529;
+}
+
+.nav-link.active {
+  color: #333;
+  font-weight: bold;
+}
+
+.nav-try {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-toggler {
+  border: none;
+  outline: none;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active {
+  outline: none;
+  box-shadow: none;
+}
+
+.navbar-toggler span {
+  display: block;
+  width: 100%;
+  border-radius: 9px;
+  color: #333;
+  margin: 5px 0;
+  transition: all 0.3s ease-in-out;
+}
+
+@media (max-width: 991.98px) {
+  .navbar {
+    padding: 0;
+  }
+
+  .navbar-nav {
+    margin: 0;
+  }
+
+  .navbar-collapse {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f5f5f5;
+    z-index: 998;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .navbar-collapse.show {
+    transform: translateX(0%);
+  }
+
+  .navbar-nav .nav-link {
+    display: block;
+    padding: 15px;
+    /* border-bottom: 1px solid #ccc; */
+    margin-left: 0;
+    font-size: 18px;
+  }
+
+  .navbar-nav .nav-link:last-child {
+    border-bottom: none;
+  }
+
+  .navbar-nav .nav-link:hover,
+  .navbar-nav .nav-link.active {
+    background-color: #ece1e1;
+    color: #f45529;
+  }
+}
+
 .user-profile a {
   cursor: pointer;
   text-decoration: none;
-  color: #fff;
+  padding: 7px;
+  color: #333;
 }
-img{
-  width:25px;
-  height: 25px;
-  border-radius: 25px;
+
+.nav-link {
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  text-transform: uppercase;
+}
+img {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
+
+#logo {
+  width: 120px;
+  height: 75px;
+}
+.dropdown-menu .dropdown-item:hover a {
+  color: #f45529;
+}
+
+.user-profile {
+  background-color: #17a2b8;
+  outline: none;
+  border-radius: 10px;
+}
+
+.dropdown {
+  background-color: inherit;
+  padding: 10px;
+  width: fit-content;
+  border: none;
+}
+.dropdown-menu {
+  border: none;
+  margin-inline-start: 0px;
+}
+
+.nav-try {
+  height: 76px;
+}
+
+@media (max-width: 991.98px) {
+  /* Hide the underline from the second and third links in the dropdown menu */
+  .dropdown-menu > .dropdown-item:nth-child(1) > a,
+  .dropdown-menu > .dropdown-item:nth-child(2) > a {
+    text-decoration: none;
+  }
+
+  /* Set the color of the second and third links to white */
+  .dropdown-menu > .dropdown-item:nth-child(1) > a,
+  .dropdown-menu > .dropdown-item:nth-child(2) > a {
+    color: rgba(0, 0, 0.55);
+  }
 }
