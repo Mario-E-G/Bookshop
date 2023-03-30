@@ -8,10 +8,14 @@
   </div>
 </div>
 
+<div *ngIf="submitted" class="countdown">
+  <p>You will be redirected to login in {{ countdown }} seconds...</p>
+</div>
+
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <div *ngIf="!error && !registerForm.invalid; submitted" class="alert alert-success text-center">
+      <div *ngIf="submitted" class="alert alert-success text-center">
         Submitted Successfully
       </div>
     </div>
@@ -26,7 +30,7 @@
           <h4>Register</h4>
         </div>
         <div class="card-body">
-          <form [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm)">
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm)" class="bg-light">
             <div class="form-group mb-3">
               <label for="first_name" class="control-label my-2 text-dark">First Name</label>
               <input placeholder="Enter your first name" id="first_name" type="text" formControlName="first_name"
@@ -78,7 +82,7 @@
             </div>
             <div class="form-group mb-3">
               <div class="form-group">
-                <label for="birthdate">Birthdate</label>
+                <label for="birthdate">Birthdate:</label>
                 <input type="date" id="birth_date" formControlName="birth_date" class="form-control" />
                 <div class="error" *ngIf="
                     registerForm.controls['birth_date'].invalid &&
@@ -123,15 +127,8 @@
             </div>
             <div class="form-group mb-3">
               <label for="password" class="control-label my-2 text-dark">Password</label>
-              <div class="d-flex">
-                <input id="password" [type]="passwd" formControlName="password" class="form-control bg-light text-dark"
-                  required />
-
-                <a class="btn btn-outline-secondary" (click)="onClick()">
-                  <i class="fa fa-eye" aria-hidden="true" *ngIf="!show"></i>
-                  <i class="fa fa-eye-slash" aria-hidden="true" *ngIf="show"></i>
-                </a>
-              </div>
+              <input id="password" type="password" formControlName="password" class="form-control bg-light text-dark"
+                required />
               <div class="error" *ngIf="
                   registerForm.controls['password']?.invalid &&
                   (registerForm.controls['password'].dirty ||
@@ -150,16 +147,9 @@
               </div>
             </div>
             <div class="form-group mb-3">
-              <label for="confirm_password" class="control-label my-2 text-dark">Confirm password</label>
-              <div class="d-flex">
-                <input id="confirm_password" [type]="cpasswd" formControlName="confirm_password"
-                  class="form-control bg-light text-dark" required />
-                <a class="btn btn-outline-secondary" (click)="onClickCPasswd()">
-                  <i class="fa fa-eye" aria-hidden="true" *ngIf="!showCPass"></i>
-                  <i class="fa fa-eye-slash" aria-hidden="true" *ngIf="showCPass"></i>
-                </a>
-              </div>
-
+              <label for="confirm_password" class="control-label my-2 text-dark">confirm_password</label>
+              <input id="confirm_password" type="password" formControlName="confirm_password"
+                class="form-control bg-light text-dark" required />
               <div class="error" *ngIf="
                   registerForm.controls['confirm_password']?.invalid &&
                   (registerForm.controls['confirm_password'].dirty ||
@@ -183,7 +173,7 @@
             </div>
             <div class="form-group w-50">
               <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-dark">Register</button>
+                <button type="submit" class="btn btn-primary">Register</button>
               </div>
             </div>
           </form>
@@ -193,4 +183,3 @@
   </div>
 </div>
 <br /><br /><br /><br />
-<app-footer></app-footer>
