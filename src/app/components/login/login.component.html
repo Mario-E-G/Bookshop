@@ -14,11 +14,7 @@
             <h4>Sign in</h4>
           </div>
           <div class="card-body">
-            <form
-              [formGroup]="loginForm"
-              (ngSubmit)="onSubmit(loginForm)"
-              class="bg-light"
-            >
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
               <div class="form-group mb-3">
                 <label for="email" class="control-label my-2 text-dark"
                   >Email</label
@@ -55,15 +51,25 @@
 
               <div class="form-group mb-3">
                 <label for="password" class="control-label my-2 text-dark"
-                  >Password:</label
+                  >Password</label
                 >
-                <input
-                  id="password"
-                  type="password"
-                  formControlName="password"
-                  class="form-control bg-light text-dark"
-                  required
-                />
+                <div class="d-flex">
+                  <input
+                    id="password"
+                    [type]="passwd"
+                    formControlName="password"
+                    class="form-control bg-light text-dark"
+                    required
+                  />
+                  <button class="btn btn-outline-secondary" (click)="onClick()">
+                    <i class="fa fa-eye" aria-hidden="true" *ngIf="!show"></i>
+                    <i
+                      class="fa fa-eye-slash"
+                      aria-hidden="true"
+                      *ngIf="show"
+                    ></i>
+                  </button>
+                </div>
                 <div
                   class="error"
                   *ngIf="
@@ -98,7 +104,9 @@
                   <div class="my-3">
                     <p class="mb-0">
                       Don't have an account?
-                      <a routerLink="/register" class="text-dark-50 fw-bold">Sign Up</a>
+                      <a routerLink="/register" class="text-dark-50 fw-bold"
+                        >Sign Up</a
+                      >
                     </p>
                   </div>
                 </div>
@@ -117,3 +125,4 @@
   <br />
   <br />
 </div>
+<app-footer></app-footer>

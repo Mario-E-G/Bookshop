@@ -11,10 +11,13 @@
 <div class="container">
   <div class="row">
     <div class="col-4 text-center" *ngFor="let book of books">
-      <img class="w-75" [src]="book.image_url" alt="{{ book.name }}" />
-      <a routerLink="/book-details/{{ book._id }}"
-        ><h2 class="text-center">{{ book.name }}</h2></a
-      >
+      <a routerLink="/book-details/{{ book._id }}"> <img class="w-75" [src]="book.image_url"
+          alt="{{ book.name }}" /></a>
+      <a style="text-decoration: none" routerLink="/book-details/{{ book._id }}">
+        <h2 class="text-center" style=" color:#000;">{{ book.name }}</h2>
+      </a>
     </div>
   </div>
 </div>
+
+<app-footer></app-footer>

@@ -6,12 +6,13 @@
   (click)="onClick(i + 1)"
   [matTooltip]="ratingId"
   matTooltipPosition="above"
+  [disabled]="!isLogged"
 >
   <mat-icon>
     {{ showIcon(i) }}
   </mat-icon>
 </button>
-<p class="body-2">
+<!-- <p class="body-2">
   Your rated <span class="body-2">{{ rating }}</span> /
   <span class="body-2">{{ starCount }}</span> 
-</p>
+</p> -->

@@ -18,6 +18,7 @@ import { trigger, transition, style, animate } from "@angular/animations";
   ],
 })
 export class CategoriesComponent implements OnInit {
+  searchTerm = "";
   categories!: ICategory[];
   categoryId!: string;
   books: any;
@@ -43,8 +44,8 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
-  scrollToTop() {}
-  onWindowScroll() {}
+  scrollToTop() { }
+  onWindowScroll() { }
   calculatePages() {
     console.log(this.categories.length);
     console.log(this.pageSize);

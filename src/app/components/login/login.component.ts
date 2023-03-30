@@ -14,6 +14,9 @@ export class LoginComponent {
   error?: String;
   loginForm!: FormGroup;
   submitted = false;
+  user?: any;
+  show = false;
+  passwd!: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -26,6 +29,7 @@ export class LoginComponent {
       email: ["", [Validators.required]],
       password: ["", [Validators.required, Validators.minLength(8)]],
     });
+    this.passwd = "password";
   }
 
   onSubmit(loginForm: FormGroup) {
@@ -41,8 +45,16 @@ export class LoginComponent {
     this._AuthService.login(loginForm.value).subscribe({
       next: (response) => {
         localStorage.setItem("token", response.token);
+
         this._AuthService.detachToken();
-        this.router.navigate(["/"]);
+
+        this.user = this._AuthService.currentLogUser.value;
+        console.log("user: --> :", this.user);
+        if (this.user.is_admin == true) {
+          this.router.navigate(["/admin/home"]);
+        } else {
+          this.router.navigate(["/"]);
+        }
       },
       error: (err) => {
         this.error = err.error.Message;
@@ -50,5 +62,15 @@ export class LoginComponent {
     });
 
     this.submitted = true;
+  }
+
+  onClick() {
+    if (this.passwd === "password") {
+      this.passwd = "text";
+      this.show = true;
+    } else {
+      this.passwd = "password";
+      this.show = false;
+    }
   }
 }

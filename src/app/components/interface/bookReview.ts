@@ -1,12 +1,12 @@
 import { IfilteredBook } from "./filteredBook";
 import { User } from "./user";
 
-enum bookStatus {
-  all,
-  new,
-  read,
-  currently_reading,
-  want_to_read,
+export enum bookStatus {
+  all = "All",
+  new = "New",
+  read = "Read",
+  currently_reading = "Currently Reading",
+  want_to_read = "Want to read",
 }
 
 export interface bookReview {

@@ -9,6 +9,7 @@ import { BooksService } from '../../service/books/books.service';
 })
 export class HomeComponent implements OnInit {
   books: Ibook[] = [];
+  popularBooks: Ibook[] = [];
   // Define an array of images
   images = [
     '../../../assets/slider1.jpg',
@@ -18,15 +19,13 @@ export class HomeComponent implements OnInit {
   // Initialize the index of the current image
   currentImageIndex = 0;
 
-  constructor(private _BooksService: BooksService) {}
+  constructor(private _BooksService: BooksService) { }
 
   ngOnInit(): void {
     // Call the changeImage method every 5 seconds
     setInterval(() => {
       this.changeImage(1);
     }, 5000);
-
-
     this._BooksService.getAllBooks().subscribe({
       next: (books) => {
         this.books = books;
@@ -35,6 +34,7 @@ export class HomeComponent implements OnInit {
         console.log(err);
       },
     });
+    // this._BooksService. -------------------KONT B7AWL AGEB AL POPULAR BOOKS----------------------------
   }
 
   // Method to change the current image

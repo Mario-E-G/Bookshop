@@ -1,90 +1,53 @@
-<div class="container-fluid height-100 bg-light">
-  <div class="row justify-content-between">
-    <!-- <mat-drawer-container class="example-container col-8" autosize>
-      <mat-drawer #drawer class="example-sidenav" mode="side">
-        <div id="wrapper" class="sidebar bg-secondary">
-          
-          <div id="sidebar-wrapper">
-            <ul class="sidebar-nav d-flex flex-column">
-              <li class="sidebar-brand">
-                <a
-                  class="nav-item"
-                  routerLink="/profile/{{ user.user_id }}"
-                  [queryParams]="{ filter: 'all' }"
-                >
-                  All
-                </a>
-              </li>
-              <li>
-                <a
-                  class="nav-item"
-                  routerLink="/profile/{{ user.user_id }}"
-                  [queryParams]="{ filter: 'new' }"
-                  >New</a
-                >
-              </li>
-              <li>
-                <a
-                  class="nav-item"
-                  routerLink="/profile/{{ user.user_id }}"
-                  [queryParams]="{ filter: 'currently_reading' }"
-                  >Currently reading</a
-                >
-              </li>
-              <li>
-                <a
-                  class="nav-item"
-                  routerLink="/profile/{{ user.user_id }}"
-                  [queryParams]="{ filter: 'want_to_read' }"
-                  >Want to read</a
-                >
-              </li>
-              <li>
-                <a
-                  class="nav-item"
-                  routerLink="/profile/{{ user.user_id }}"
-                  [queryParams]="{ filter: 'read' }"
-                  >Finished</a
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
-      </mat-drawer>
-
-      <div class="example-sidenav-content">
-        <button type="button" mat-button (click)="drawer.toggle()">
-          Toggle sidenav
-        </button>
-      </div>
-    </mat-drawer-container> -->
-    <div
-      class="col-4 w-100 d-flex justify-content-center"
-      *ngIf="books?.length == 0"
-    >
-      <p class="alert alert-warning text-center">No Books Yet</p>
+<div class="container" *ngIf="books?.length == 0">
+  <div class="row">
+    <div class="col-10 col-sm-10 col-md-5 col-lg-3 col-xl-2 d-flex justify-content-center w-100"
+      *ngIf="books?.length == 0">
+      <p class="alert alert-warning text-center w-100">No Books Yet</p>
     </div>
-    <div class="col-3" *ngFor="let book of books">
-      <!-- (filterB)="fillBookArray($event)" -->
-      <div class="content">
-        <img
-          class="w-100"
-          [src]="book?.book_id?.image_url"
-          alt="{{ book?.book_id?.name }}"
-        />
-        <h4>{{ book?.book_id?.name | titlecase }}</h4>
-        <h5>By, {{ book?.book_id?.author_id?.first_name | titlecase }}</h5>
-        <h5>rate: {{ book?.rate }}</h5>
-        <h5>Avg.Rate: {{ book?.average_rate }}</h5>
-        <select
-          class="form-select form-select-sm"
-          aria-label=".form-select-sm example"
-        >
-          <option value="{{ book?.book_status }}">
-            {{ book?.book_status }}
-          </option>
-        </select>
+  </div>
+  <div class="row">
+    <div class="col d-flex justify-content-center align-items-center flex-column">
+      <div>
+      </div>
+      <div class="w-50">
+        <img class="w-100 text-center" src="../../../assets/404.png" alt="notfound" />
       </div>
     </div>
   </div>
+  <br>
 </div>
+<div class="container">
+  <div class="row">
+    <div class="col-12 " style="z-index: 99999999;">
+      <app-usersidebar [user]="user"></app-usersidebar>
+    </div>
+  </div>
+  <div class="row align-items-center justify-content-center">
+    <div class="col-10 col-sm-10 col-md-5 col-lg-4 col-xl-2 text-center" *ngFor="let book of books">
+      <div class="content text-center">
+        <div class="text-center">
+          <a routerLink="/book-details/{{book?.book_id?._id}}"><img style="height:400px;" class="w-100 my-1"
+              [src]="book?.book_id?.image_url" alt="{{ book?.book_id?.name }}" /></a>
+        </div>
+        <h4>{{ book?.book_id?.name | titlecase }}</h4>
+        <h5>By, {{ book?.book_id?.author_id?.first_name | titlecase }}</h5>
+        <p-rating [(ngModel)]="book.rate" (onCancel)="removeRate(book.book_id)"
+          (onRate)="onRatingChanged(book?.book_id,$event)"></p-rating>
+        <p-rating [readonly]="true" [cancel]="false" [(ngModel)]="book.average_rate"></p-rating>
+        <mat-form-field>
+          <mat-label>{{ book.book_status }}</mat-label>
+          <mat-select class="selected" (selectionChange)="onStateChanged(book?.book_id,$event)">
+            <mat-option class="select" *ngFor="let status of status" [value]="status?.value">
+              <b> {{status?.viewValue}} </b>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<app-footer></app-footer>

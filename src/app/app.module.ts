@@ -29,11 +29,34 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { AuthorDetailsComponent } from "./components/author-details/author-details.component";
-import { CategoryComponent } from './components/admin/category/category.component';
-import { BookComponent } from './components/admin/book/book.component';
-import { AuthorComponent } from './components/admin/author/author.component';
-import { UserComponent } from './components/admin/user/user.component';
-import { ScrollToTopButtonComponent } from './components/scroll-to-top-button/scroll-to-top-button.component';
+import { AdminCategoryComponent } from "./components/admin/category/category.component";
+import { AdminBookComponent } from "./components/admin/book/book.component";
+import { AdminAuthorComponent } from "./components/admin/author/author.component";
+import { AdminUserComponent } from "./components/admin/user/user.component";
+import { ScrollToTopButtonComponent } from "./components/scroll-to-top-button/scroll-to-top-button.component";
+import { SidenavComponent } from "./components/sidenav/sidenav.component";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { MatListModule } from "@angular/material/list";
+import { AdminComponent } from "./components/admin/admin.component";
+import { AccordionModule } from "primeng/accordion"; //accordion and accordion tab
+import { ConfirmDialogModule } from "primeng/confirmdialog";
+import { DialogModule } from "primeng/dialog";
+import { TableModule } from "primeng/table";
+import { ToastModule } from "primeng/toast";
+import { ToolbarModule } from "primeng/toolbar";
+import { FileUploadModule } from "primeng/fileupload";
+import { MatRadioModule } from "@angular/material/radio";
+import { InputTextModule } from "primeng/inputtext";
+import { RadioButtonModule } from "primeng/radiobutton";
+import { RippleModule } from "primeng/ripple";
+import { RatingModule } from "primeng/rating";
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { Cat_Filter } from "./components/categories/catePipe";
+import { Book_Filter } from "./components/books/bookPipe";
+import { Author_Filter } from "./components/authors/authorPipe";
+
 
 @NgModule({
   declarations: [
@@ -54,11 +77,16 @@ import { ScrollToTopButtonComponent } from './components/scroll-to-top-button/sc
     BookDetailsComponent,
     StarRatingComponent,
     AuthorDetailsComponent,
-    CategoryComponent,
-    BookComponent,
-    AuthorComponent,
-    UserComponent,
+    AdminCategoryComponent,
+    AdminBookComponent,
+    AdminAuthorComponent,
+    AdminUserComponent,
     ScrollToTopButtonComponent,
+    SidenavComponent,
+    AdminComponent,
+    Cat_Filter,
+    Book_Filter,
+    Author_Filter
   ],
   imports: [
     BrowserModule,
@@ -76,8 +104,25 @@ import { ScrollToTopButtonComponent } from './components/scroll-to-top-button/sc
     MatTooltipModule,
     MatSnackBarModule,
     MatFormFieldModule,
+    MatDividerModule,
+    MatListModule,
+    AccordionModule,
+    ConfirmDialogModule,
+    DialogModule,
+    TableModule,
+    ToastModule,
+    ToolbarModule,
+    FileUploadModule,
+    MatRadioModule,
+    InputTextModule,
+    RadioButtonModule,
+    RippleModule,
+    RatingModule,
+    MatProgressBarModule,
+    MatSelectModule,
+    MatButtonToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

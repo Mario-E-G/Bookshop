@@ -27,6 +27,7 @@ export class NavbarComponent {
 
   navbarExpanded = false;
   islogged = false;
+  isAdmin = false;
   user?: User;
 
   constructor(
@@ -37,19 +38,27 @@ export class NavbarComponent {
     this.authService.currentLogUser.subscribe(() => {
       if (this.authService.currentLogUser.getValue().email === "") {
         this.islogged = false;
+        // this.user = this.authService.currentLogUser.value;
+      } else if (
+        this.authService.currentLogUser.getValue().email !== "" &&
+        this.authService.currentLogUser.getValue().is_admin === false
+      ) {
+        this.islogged = true;
+        this.isAdmin = false;
+        this.user = this.authService.currentLogUser.value;
       } else {
         this.islogged = true;
+        this.isAdmin = true;
         this.user = this.authService.currentLogUser.value;
-        console.log(this.user);
       }
     });
   }
 
-  hideNavbar(): void {
-    if (this.navbar.nativeElement.classList.contains("show")) {
-      this.navbar.nativeElement.classList.remove("show");
-    }
-  }
+  // hideNavbar(): void {
+  //   if (this.navbar.nativeElement.classList.contains("show")) {
+  //     this.navbar.nativeElement.classList.remove("show");
+  //   }
+  // }
 
   toggleNavbar(): void {
     this.navbarExpanded = !this.navbarExpanded;
@@ -57,27 +66,13 @@ export class NavbarComponent {
 
   logout(): void {
     this.authService.logout();
+    this.islogged = false;
+    this.isAdmin = false;
   }
 
   dropdownMenu(): void {
     // implementation for dropdownMenu method
   }
 
-  ngOnInit(): void {
-    const navbarToggle =
-      this.elementRef.nativeElement.querySelector(".navbar-toggler");
-    const navbarCollapse = this.elementRef.nativeElement.querySelector(
-      "#navbarNavAltMarkup"
-    );
-
-    this.renderer.listen("document", "click", (event) => {
-      if (
-        navbarCollapse.classList.contains("show") &&
-        !navbarCollapse.contains(event.target) &&
-        event.target !== navbarToggle
-      ) {
-        navbarToggle.click();
-      }
-    });
-  }
+  ngOnInit(): void { }
 }

@@ -11,7 +11,7 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <div *ngIf="!error && !registerForm.invalid submitted" class="alert alert-success text-center">
+      <div *ngIf="!error && !registerForm.invalid; submitted" class="alert alert-success text-center">
         Submitted Successfully
       </div>
     </div>
@@ -26,98 +26,49 @@
           <h4>Register</h4>
         </div>
         <div class="card-body">
-          <form
-            [formGroup]="registerForm"
-            (ngSubmit)="onSubmit(registerForm)"
-            class="bg-light"
-          >
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm)">
             <div class="form-group mb-3">
-              <label for="first_name" class="control-label my-2 text-dark"
-                >First Name</label
-              >
-              <input
-                placeholder="Enter your first name"
-                id="first_name"
-                type="text"
-                formControlName="first_name"
-                class="form-control bg-light text-dark"
-                required
-              />
-              <div
-                class="error"
-                *ngIf="
+              <label for="first_name" class="control-label my-2 text-dark">First Name</label>
+              <input placeholder="Enter your first name" id="first_name" type="text" formControlName="first_name"
+                class="form-control bg-light text-dark" required />
+              <div class="error" *ngIf="
                   registerForm.controls['first_name']?.invalid &&
                   (registerForm.controls['first_name'].dirty ||
                     registerForm.controls['first_name'].touched)
-                "
-              >
-                <p
-                  *ngIf="registerForm.get('first_name')?.errors?.['required']"
-                  class="text-danger"
-                >
+                ">
+                <p *ngIf="registerForm.get('first_name')?.errors?.['required']" class="text-danger">
                   First name is required.
                 </p>
               </div>
             </div>
 
             <div class="form-group mb-3">
-              <label for="last_name" class="control-label my-2 text-dark"
-                >Last Name</label
-              >
-              <input
-                placeholder="Enter your last name"
-                id="last_name"
-                type="text"
-                formControlName="last_name"
-                class="form-control bg-light text-dark"
-                required
-              />
-              <div
-                class="error"
-                *ngIf="
+              <label for="last_name" class="control-label my-2 text-dark">Last Name</label>
+              <input placeholder="Enter your last name" id="last_name" type="text" formControlName="last_name"
+                class="form-control bg-light text-dark" required />
+              <div class="error" *ngIf="
                   registerForm.controls['last_name']?.invalid &&
                   (registerForm.controls['last_name'].dirty ||
                     registerForm.controls['last_name'].touched)
-                "
-              >
-                <p
-                  *ngIf="registerForm.controls['last_name'].errors!['required']"
-                  class="text-danger"
-                >
+                ">
+                <p *ngIf="registerForm.controls['last_name'].errors!['required']" class="text-danger">
                   Last name is required.
                 </p>
               </div>
             </div>
             <div class="form-group mb-3">
-              <label for="email" class="control-label my-2 text-dark"
-                >Email</label
-              >
-              <input
-                placeholder="salama@example.com"
-                id="email"
-                type="email"
-                formControlName="email"
-                class="form-control bg-light text-dark"
-                required
-              />
-              <div
-                class="error"
-                *ngIf="
+              <label for="email" class="control-label my-2 text-dark">Email</label>
+              <input placeholder="salama@example.com" id="email" type="email" formControlName="email"
+                class="form-control bg-light text-dark" required />
+              <div class="error" *ngIf="
                   registerForm.controls['email'].invalid &&
                   (registerForm.controls['email'].dirty ||
                     registerForm.controls['email'].touched)
-                "
-              >
-                <p
-                  *ngIf="registerForm.get('email')?.errors?.['required']"
-                  class="text-danger"
-                >
+                ">
+                <p *ngIf="registerForm.get('email')?.errors?.['required']" class="text-danger">
                   Email address is required.
                 </p>
-                <p
-                  *ngIf="registerForm.get('email')?.errors?.['pattern']"
-                  class="text-danger"
-                >
+                <p *ngIf="registerForm.get('email')?.errors?.['pattern']" class="text-danger">
                   Please enter a valid email address.
                 </p>
                 <!-- <p *ngIf="registerForm.get('email')?.errors?.['email']" class="text-danger">
@@ -127,25 +78,14 @@
             </div>
             <div class="form-group mb-3">
               <div class="form-group">
-                <label for="birthdate">Birthdate:</label>
-                <input
-                  type="date"
-                  id="birth_date"
-                  formControlName="birth_date"
-                  class="form-control"
-                />
-                <div
-                  class="error"
-                  *ngIf="
+                <label for="birthdate">Birthdate</label>
+                <input type="date" id="birth_date" formControlName="birth_date" class="form-control" />
+                <div class="error" *ngIf="
                     registerForm.controls['birth_date'].invalid &&
                     (registerForm.controls['birth_date'].dirty ||
                       registerForm.controls['birth_date'].touched)
-                  "
-                >
-                  <p
-                    *ngIf="registerForm.controls['birth_date'].errors?.['invalidBirthDate']"
-                    class="text-danger"
-                  >
+                  ">
+                  <p *ngIf="registerForm.controls['birth_date'].errors?.['invalidBirthDate']" class="text-danger">
                     Please enter a valid birthdate.
                   </p>
                 </div>
@@ -153,9 +93,7 @@
             </div>
 
             <div class="form-group mb-3">
-              <label for="gender" class="control-label my-2 text-dark"
-                >Gender</label
-              >
+              <label for="gender" class="control-label my-2 text-dark">Gender</label>
               <select id="gender" formControlName="gender" class="form-control">
                 <option value="">Select</option>
                 <option value="male">Male</option>
@@ -164,29 +102,15 @@
             </div>
 
             <div class="form-group mb-3">
-              <label for="address" class="control-label my-2 text-dark"
-                >Address</label
-              >
-              <input
-                placeholder="Enter your address"
-                id="address"
-                type="text"
-                formControlName="address"
-                class="form-control bg-light text-dark"
-              />
+              <label for="address" class="control-label my-2 text-dark">Address</label>
+              <input placeholder="Enter your address" id="address" type="text" formControlName="address"
+                class="form-control bg-light text-dark" />
             </div>
 
             <div class="form-group mb-3">
-              <label for="image_url" class="control-label my-2 text-dark"
-                >image</label
-              >
-              <input
-                id="image_url"
-                type="file"
-                (change)="onFileSelected($event)"
-                formControlName="image_url"
-                class="form-control bg-light text-dark"
-              />
+              <label for="image_url" class="control-label my-2 text-dark">image</label>
+              <input id="image_url" type="file" (change)="onFileSelected($event)" formControlName="image_url"
+                class="form-control bg-light text-dark" />
               <!-- <div class="error" *ngIf="
                 registerForm.controls['image_url']?.invalid &&
                 (registerForm.controls['image_url'].dirty ||
@@ -198,86 +122,68 @@
               </div> -->
             </div>
             <div class="form-group mb-3">
-              <label for="password" class="control-label my-2 text-dark"
-                >Password</label
-              >
-              <input
-                id="password"
-                type="password"
-                formControlName="password"
-                class="form-control bg-light text-dark"
-                required
-              />
-              <div
-                class="error"
-                *ngIf="
+              <label for="password" class="control-label my-2 text-dark">Password</label>
+              <div class="d-flex">
+                <input id="password" [type]="passwd" formControlName="password" class="form-control bg-light text-dark"
+                  required />
+
+                <a class="btn btn-outline-secondary" (click)="onClick()">
+                  <i class="fa fa-eye" aria-hidden="true" *ngIf="!show"></i>
+                  <i class="fa fa-eye-slash" aria-hidden="true" *ngIf="show"></i>
+                </a>
+              </div>
+              <div class="error" *ngIf="
                   registerForm.controls['password']?.invalid &&
                   (registerForm.controls['password'].dirty ||
                     registerForm.controls['password'].touched)
-                "
-              >
-                <p
-                  *ngIf="registerForm.controls['password'].errors!['required']"
-                  class="text-danger"
-                >
+                ">
+                <p *ngIf="registerForm.controls['password'].errors!['required']" class="text-danger">
                   Password is required.
                 </p>
                 <!-- <p *ngIf="registerForm.get('password')?.errors!['minlength']" class="text-danger">
                   Password must be at least 8 characters.
                 </p> -->
-                <p
-                  *ngIf="(registerForm.get('password')?.errors)!['pattern']"
-                  class="text-danger"
-                >
+                <p *ngIf="(registerForm.get('password')?.errors)!['pattern']" class="text-danger">
                   Password requires at least one lowercase, uppercase, number,
                   and special character.
                 </p>
               </div>
             </div>
             <div class="form-group mb-3">
-              <label for="confirm_password" class="control-label my-2 text-dark"
-                >confirm_password</label
-              >
-              <input
-                id="confirm_password"
-                type="password"
-                formControlName="confirm_password"
-                class="form-control bg-light text-dark"
-                required
-              />
-              <div
-                class="error"
-                *ngIf="
+              <label for="confirm_password" class="control-label my-2 text-dark">Confirm password</label>
+              <div class="d-flex">
+                <input id="confirm_password" [type]="cpasswd" formControlName="confirm_password"
+                  class="form-control bg-light text-dark" required />
+                <a class="btn btn-outline-secondary" (click)="onClickCPasswd()">
+                  <i class="fa fa-eye" aria-hidden="true" *ngIf="!showCPass"></i>
+                  <i class="fa fa-eye-slash" aria-hidden="true" *ngIf="showCPass"></i>
+                </a>
+              </div>
+
+              <div class="error" *ngIf="
                   registerForm.controls['confirm_password']?.invalid &&
                   (registerForm.controls['confirm_password'].dirty ||
                     registerForm.controls['confirm_password'].touched)
-                "
-              >
-                <p
-                  *ngIf="
+                ">
+                <p *ngIf="
                     registerForm.controls['confirm_password'].errors![
                       'required'
                     ]
-                  "
-                  class="text-danger"
-                >
+                  " class="text-danger">
                   Confirm password is required.
                 </p>
-                <p
-                  *ngIf="
+                <p *ngIf="
                     registerForm.controls['confirm_password'].errors![
                       'passwordMismatch'
                     ]
-                  "
-                  class="text-danger"
-                >
+                  " class="text-danger">
                   Password doesn't match.
                 </p>
               </div>
             </div>
             <div class="form-group w-50">
               <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">Register</button>
+                <button type="submit" class="btn btn-dark">Register</button>
               </div>
             </div>
           </form>
@@ -287,3 +193,4 @@
   </div>
 </div>
 <br /><br /><br /><br />
+<app-footer></app-footer>

@@ -23,15 +23,21 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   selectedFile?: File;
   submitted = false;
+  passwd!: any;
+  cpasswd!: any;
+  show = false;
+  showCPass = false;
 
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.buildForm();
+    this.passwd = "password";
+    this.cpasswd = "password";
   }
 
   buildForm(): void {
@@ -102,13 +108,14 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(registerForm: FormGroup) {
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
+
 
     if (this.registerForm.invalid) {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
       this.error = "Form is invalid!";
       return;
     }
@@ -145,5 +152,25 @@ export class RegisterComponent implements OnInit {
         this.error = err.error.Message;
       },
     });
+  }
+
+  onClick() {
+    if (this.passwd === "password") {
+      this.passwd = "text";
+      this.show = true;
+    } else {
+      this.passwd = "password";
+      this.show = false;
+    }
+  }
+
+  onClickCPasswd() {
+    if (this.cpasswd === "password") {
+      this.cpasswd = "text";
+      this.showCPass = true;
+    } else {
+      this.cpasswd = "password";
+      this.showCPass = false;
+    }
   }
 }

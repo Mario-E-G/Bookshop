@@ -17,14 +17,14 @@ export class AuthorService {
 
   requestOptions = { headers: this.headers };
 
-  getAllauthors(): Observable<Iauthor[]> {
-    return this._HttpClient.get<Iauthor[]>(
+  getAllauthors(): Observable<any[]> {
+    return this._HttpClient.get<any[]>(
       "http://localhost:5000/author",
       this.requestOptions
     );
   }
-  getAuthorById(author_id: any): Observable<Iauthor> {
-    return this._HttpClient.get<Iauthor>(
+  getAuthorById(author_id: any): Observable<any> {
+    return this._HttpClient.get<any>(
       `http://localhost:5000/author/${author_id}`,
       this.requestOptions
     );

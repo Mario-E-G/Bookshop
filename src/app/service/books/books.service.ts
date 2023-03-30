@@ -16,7 +16,7 @@ export class BooksService {
   constructor(
     private _HttpClient: HttpClient,
     private _UserService: AuthService
-  ) {}
+  ) { }
 
   headers = { "access-token": `${this._UserService.getToken()}` };
 
@@ -29,10 +29,38 @@ export class BooksService {
     );
   }
 
-  updateBookRate(updatedBook: any): Observable<bookReview> {
+  getAllReviewForSpecificBook(book_id: any): Observable<any> {
+    return this._HttpClient.get(
+      `http://localhost:5000/bookreview/review/${book_id}`
+    );
+  }
+
+
+  getBookRate(book_id: any, user_id: any): Observable<any> {
+    return this._HttpClient.get(
+      `http://localhost:5000/bookreview/rate/${book_id}/${user_id}`,
+      this.requestOptions
+    );
+  }
+
+  updateBook(updatedBook: any, book_id: any): Observable<bookReview> {
     return this._HttpClient.patch<bookReview>(
-      "http://localhost:5000/profile/bookReview",
+      `http://localhost:5000/profile/bookreview/${book_id}`,
       updatedBook,
+      this.requestOptions
+    );
+  }
+
+  addReviewText(
+    newReview: any,
+    book_id: any,
+    user_id: any
+  ): Observable<bookReview> {
+    console.log(newReview);
+
+    return this._HttpClient.post<bookReview>(
+      `http://localhost:5000/profile/bookreview/review/${book_id}/${user_id}`, //   /profile/bookreview/review/
+      newReview,
       this.requestOptions
     );
   }
@@ -40,7 +68,7 @@ export class BooksService {
   addBookReview(book_id: any): Observable<bookReview> {
     // console.log("header: ",this.headers);
     return this._HttpClient.post<bookReview>(
-      "http://localhost:5000/profile/bookReview",
+      "http://localhost:5000/profile/bookreview",
       { book_id },
       this.requestOptions
     );
@@ -67,4 +95,21 @@ export class BooksService {
       this.requestOptions
     );
   }
+
+  deleteReviewText(review_id: any): Observable<any> {
+    return this._HttpClient.delete(`http://localhost:5000/profile/bookreview/review/${review_id}`,
+      this.requestOptions
+    );
+  }
+  updateReviewText(newReview: any, review_id: any): Observable<bookReview> {
+    return this._HttpClient.patch(`http://localhost:5000/profile/bookreview/review/${review_id}`, newReview,
+      this.requestOptions
+    );
+  }
+
+  // getBookReviews(book_id: any): Observable<bookReview[]> {
+  //   return this._HttpClient.get<bookReview[]>(
+  //     `http://localhost:5000/bookreview/${book_id}`
+  //   );
+  // }
 }

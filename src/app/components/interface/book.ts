@@ -1,4 +1,5 @@
 import { Iauthor } from "./author";
+import { ICategory } from "./category";
 import { IfilteredBook } from "./filteredBook";
 
 export interface Ibook {
@@ -6,7 +7,6 @@ export interface Ibook {
   book_id?: IfilteredBook;
   image_url?: string;
   name?: string;
-  first_name?: string;
-  last_name?: string;
+  category_id?: ICategory;
   author_id?: Iauthor;
 }
