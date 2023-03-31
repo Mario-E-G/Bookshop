@@ -7,6 +7,7 @@
                 (click)="openNew()"></button>
         </ng-template>
     </p-toolbar>
+
     <p-table #dt [value]="books" [rows]="10" [paginator]="true" [tableStyle]="{'min-width': '75rem'}"
         [(selection)]="selectedBooks" [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
@@ -31,8 +32,9 @@
                         class="shadow-4" /></td>
                 <td>
                     <select class="form-select" name="category_id" id="category">
-                        <option value="{{cat._id}}" [selected]="book.category_id.name == cat.name"
-                            *ngFor="let cat of categories">{{cat.name}}</option>
+                        <option value="{{book.category_id._id}}" [selected]="book.category_id.name">
+                            {{book.category_id.name}}
+                        </option>
                     </select>
                 </td>
                 <td>
@@ -61,49 +63,55 @@
     </p-table>
 </div>
 
-<p-dialog [(visible)]="bookDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true"
+<p-dialog [(visible)]="bookDialog" [style]="{width: '450px'}" header="Book Details" [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="content">
-        <div class="field mt-2">
-            <label for="name">Name</label>
-            <input type="text" pInputText id="last_name" name="last_name" [(ngModel)]="book.name" required autofocus />
-            <small class="p-error" *ngIf="submitted && !book.name">name is required.</small>
-        </div>
-        <div class="mt-2">
-            <p-toolbar>
-                <ng-template pTemplate="right">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <img [src]="book.image_url" [alt]="book.image_url" class="product-image" *ngIf="book.image_url"
-                            style="width:100px">
-                        <p-fileUpload class="form-control-input mx-2" mode="basic" name="image_url"
-                            (onSelect)="onFileSelected($event)" accept="image/*" label="Upload"
-                            chooseLabel="Import Image"></p-fileUpload>
-                    </div>
-                </ng-template>
-            </p-toolbar>
-        </div>
-        <div class="field mt-2">
-            <label for="name">Category</label>
-            <select class="form-select" name="category_id" id="category" (change)="selectCategory($event)">
-                <option value="Select Category">Select Category</option>
-                <option value="{{cat._id}}" *ngFor="let cat of categories">{{cat.name}}</option>
-            </select> <small class="p-error" *ngIf="submitted && !book.category">Category is required.</small>
-        </div>
-        <div class="field mt-2">
-            <label for="author">Author</label>
-            <select class="form-select" (change)="selectAuthor($event)" name="author_id" id="author">
-                <option value="Select Select">Select Author</option>
-                <option value="{{author._id}}" *ngFor="let author of authors">{{author.first_name + " " +
-                    author.last_name}}
-                </option>
-            </select>
-            <small class="p-error" *ngIf="submitted && !book.author_id">Author is required.</small>
-        </div>
-        <div class="field mt-2">
-            <label for="price">Price</label>
-            <input type="number" pInputText id="price" name="price" [(ngModel)]="book.price" required autofocus />
-            <small class="p-error" *ngIf="submitted && !book.price">Price is required.</small>
-        </div>
+        <form [formGroup]="registerForm"  (ngSubmit)="registerForm">
+            <img [src]="book.image_url" [alt]="book.image_url" class="product-image text-center" *ngIf="book.image_url">
+            <div class="field mt-2">
+                <label for="name">Name</label>
+                <input type="text" pInputText id="name" formControlName="name" name="name" [(ngModel)]="book.name"
+                    required autofocus />
+                <small class="p-error" *ngIf="submitted && !book.name">name is required.</small>
+            </div>
+            <div class="field mt-2">
+                <p-toolbar>
+                    <ng-template pTemplate="right">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <img [src]="book.image_url" [alt]="book.image_url" class="product-image"
+                                *ngIf="book.image_url" style="width:100px">
+                            <input id="image_url" type="file" (change)="onFileSelected($event)"
+                                formControlName="image_url" class="form-control bg-light text-dark" />
+                        </div>
+                    </ng-template>
+                </p-toolbar>
+            </div>
+            <div class="field mt-2">
+                <label for="name">Category</label>
+                <select class="form-select" formControlName="category_id" name="category_id" id="category"
+                    (change)="selectCategory($event)">
+                    <option value="Select Category">Select Category</option>
+                    <option value="{{cat._id}}" *ngFor="let cat of categories">{{cat.name}}</option>
+                </select> <small class="p-error" *ngIf="submitted && !book.category">Category is required.</small>
+            </div>
+            <div class="field mt-2">
+                <label for="author">Author</label>
+                <select class="form-select" formControlName="author_id" (change)="selectAuthor($event)" name="author_id"
+                    id="author">
+                    <option value="Select Select">Select Author</option>
+                    <option value="{{author._id}}" *ngFor="let author of authors">{{author.first_name + " " +
+                        author.last_name}}
+                    </option>
+                </select>
+                <small class="p-error" *ngIf="submitted && !book.author_id">Author is required.</small>
+            </div>
+            <div class="field mt-2">
+                <label for="price">Price</label>
+                <input type="number" pInputText id="price" formControlName="price" name="price" [(ngModel)]="book.price"
+                    required autofocus />
+                <small class="p-error" *ngIf="submitted && !book.price">Price is required.</small>
+            </div>
+        </form>
     </ng-template>
 
     <ng-template pTemplate="footer">

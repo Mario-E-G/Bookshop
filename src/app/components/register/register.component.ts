@@ -8,6 +8,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { Router } from "@angular/router";
+import { ConfirmationService, MessageService } from "primeng/api";
 import { AuthService } from "src/app/service/authentication/auth.service";
 import { User } from "../interface/user";
 
@@ -15,29 +16,34 @@ import { User } from "../interface/user";
   selector: "app-register",
   templateUrl: "./register.component.html",
   styleUrls: ["./register.component.css"],
+  providers: [MessageService, ConfirmationService],
 })
 export class RegisterComponent implements OnInit {
+  countdown: number = 5;
+  passwd!: string;
+  cpasswd!: string;
+  show = false;
+  showCPass = false;
   newUser!: User;
   error?: string;
   choosen?: boolean;
   registerForm!: FormGroup;
   selectedFile?: File;
   submitted = false;
-  passwd!: any;
-  cpasswd!: any;
-  show = false;
-  showCPass = false;
 
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
   ) { }
 
   ngOnInit(): void {
     this.buildForm();
     this.passwd = "password";
     this.cpasswd = "password";
+
   }
 
   buildForm(): void {
@@ -101,10 +107,24 @@ export class RegisterComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    if (event.target.value) {
-      this.selectedFile = event.target.files[0];
-      this.choosen = true;
+    const file = event.target.files[0];
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+    if (!allowedExtensions.exec(file.name)) {
+
+      this.messageService.add({
+        severity: "error",
+        summary: "book",
+        detail: "Invalid file type. Please select a JPEG, PNG, or JPG file.",
+        life: 3000,
+      });
+      this.selectedFile = undefined; // Clear the selected file
+      event.target.value = null; // Clear the input element
+
+      return;
     }
+    // Do something with the valid file
+    this.selectedFile = event.target.files[0];
+    this.choosen = true;
   }
 
   onSubmit(registerForm: FormGroup) {
@@ -136,19 +156,38 @@ export class RegisterComponent implements OnInit {
 
     this.authService.register(formData).subscribe({
       next: (response: any) => {
+        window.scroll({
+          top: 0,
+          left: 0,
+          behavior: "smooth",
+        });
         if (response.status == 201) {
           this.submitted = true;
-          setTimeout(() => {
-            this.router.navigate(["/login"]);
-          }, 3000);
+          const countdownInterval = setInterval(() => {
+            this.countdown--;
+            if (this.countdown === 0) {
+              clearInterval(countdownInterval);
+              this.router.navigate(["/login"]);
+            }
+          }, 1000);
         }
         if (response.status == 409) {
-          setTimeout(() => {
-            this.router.navigate(["/login"]);
-          }, 3000);
+          const countdownInterval = setInterval(() => {
+            this.countdown--;
+            if (this.countdown === 0) {
+              clearInterval(countdownInterval);
+              this.router.navigate(["/login"]);
+            }
+          }, 1000);
         }
       },
       error: (err) => {
+        window.scroll({
+          top: 0,
+          left: 0,
+          behavior: "smooth",
+        });
+        console.log(err.error.Message);
         this.error = err.error.Message;
       },
     });
@@ -163,7 +202,6 @@ export class RegisterComponent implements OnInit {
       this.show = false;
     }
   }
-
   onClickCPasswd() {
     if (this.cpasswd === "password") {
       this.cpasswd = "text";
@@ -173,4 +211,5 @@ export class RegisterComponent implements OnInit {
       this.showCPass = false;
     }
   }
+
 }

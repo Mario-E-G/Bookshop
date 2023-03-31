@@ -3,6 +3,7 @@ import { Iauthor } from "../../interface/author";
 import { AuthorService } from "src/app/service/admin/author/author.service";
 import { ConfirmationService } from "primeng/api";
 import { MessageService } from "primeng/api";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-author",
@@ -20,25 +21,41 @@ import { MessageService } from "primeng/api";
   providers: [MessageService, ConfirmationService],
 })
 export class AdminAuthorComponent {
-  authors!: Iauthor[];
+  authors!: any[];
   authorDialog!: boolean;
-  author!: Iauthor;
-  selectedAuthors: Iauthor[] = [];
+  author!: any;
+  selectedAuthors: any[] = [];
   submitted!: boolean;
   statuses!: any[];
-  selectedAuthor!: Iauthor;
+  selectedAuthor!: any;
   error!: string;
+  selectedFile?: File;
+  registerForm!: FormGroup;
   constructor(
     private _AuthorService: AuthorService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
-  ) {}
+    private confirmationService: ConfirmationService,
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit() {
+    this.buildForm();
     this._AuthorService.getAllAuthor().subscribe((author) => {
       console.log(author);
       this.authors = author;
     });
+  }
+
+  buildForm(): void {
+    this.registerForm = this.formBuilder.group(
+      {
+        first_name: ["", Validators.required],
+        last_name: ["", Validators.required],
+        date_of_birth: [""],
+        author_info: [""],
+        image_url: [""],
+      },
+    );
   }
 
   openNew() {
@@ -46,7 +63,7 @@ export class AdminAuthorComponent {
       _id: "",
       first_name: "",
       last_name: "",
-      date_of_birth: new Date(),
+      date_of_birth: "",
       image_url: "",
       author_info: "",
     };
@@ -54,40 +71,9 @@ export class AdminAuthorComponent {
     this.authorDialog = true;
   }
 
-  deleteSelectedcategorys() {
-    this.confirmationService.confirm({
-      message: "Are you sure you want to delete the selected categorys?",
-      header: "Confirm",
-      icon: "pi pi-exclamation-triangle",
-      accept: () => {
-        this.authors = this.authors.filter((val) => {
-          console.log(val);
-          return !this.selectedAuthors.includes(val);
-        });
-        this.selectedAuthors = [
-          {
-            _id: "",
-            first_name: "",
-            last_name: "",
-            date_of_birth: new Date(),
-            image_url: "",
-            author_info: "",
-          },
-        ];
-        this.messageService.add({
-          severity: "success",
-          summary: "Successful",
-          detail: "Products Deleted",
-          life: 3000,
-        });
-      },
-    });
-  }
-
   editAuthor(author: Iauthor) {
     this.author = { ...author };
     this.authorDialog = true;
-    console.log(author);
   }
 
   deleteAuthor(author: Iauthor) {
@@ -98,22 +84,25 @@ export class AdminAuthorComponent {
       accept: () => {
         this._AuthorService.deleteAuthor(author._id).subscribe({
           next: (response: any) => {
-            this.authors = response.author;
+            this._AuthorService.getAllAuthor().subscribe((author) => {
+              this.authors = author;
+            })
+            this.messageService.add({
+              severity: "success",
+              summary: "Successful",
+              detail: "Author Deleted",
+              life: 3000,
+            });
           },
           error: (err) => {
-            // console.log(err);
-            this.error = err.error.Message;
+            this.messageService.add({
+              severity: "error",
+              summary: "Author",
+              detail: `${err.error.Message}`,
+              life: 3000,
+            });
           },
         });
-        this.messageService.add({
-          severity: "success",
-          summary: "Successful",
-          detail: "User Deleted",
-          life: 3000,
-        });
-      },
-      reject: () => {
-        console.log("rejected");
       },
     });
   }
@@ -123,27 +112,96 @@ export class AdminAuthorComponent {
     this.submitted = false;
   }
 
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+    if (!allowedExtensions.exec(file.name)) {
+      this.messageService.add({
+        severity: "error",
+        summary: "book",
+        detail: "Invalid file type. Please select a JPEG, PNG, or JPG file.",
+        life: 3000,
+      });
+      this.selectedFile = undefined; // Clear the selected file
+      event.target.value = null; // Clear the input element
+      return;
+    }
+    // Do something with the valid file
+    this.selectedFile = event.target.files[0];
+  }
+
+  get f() {
+    return this.registerForm.controls;
+  }
+
   saveAuthor() {
     this.submitted = true;
 
     if (this.author.first_name.trim()) {
+
+      const formData = new FormData();
+      formData.append("first_name", this.f["first_name"].value);
+      formData.append("last_name", this.f["last_name"].value);
+      formData.append("date_of_birth", this.f["date_of_birth"].value);
+      formData.append("author_info", this.f["author_info"].value);
+
+      if (this.selectedFile) {
+        formData.append("image_url", this.selectedFile, this.selectedFile.name);
+      }
+
       if (this.author._id) {
         this.authors[this.findIndexById(this.author._id)] = this.author;
-        console.log("from saveUser: " + this.author.first_name);
-        console.log("from saveUser: " + this.author._id);
 
         this._AuthorService
-          .updateAuthor(this.author, this.author._id)
-          .subscribe((author) => {
-            console.log(author);
+          .updateAuthor(formData, this.author._id)
+          .subscribe({
+            next: () => {
+              this._AuthorService.getAllAuthor().subscribe((author) => {
+                this.authors = author;
+              })
+              this.messageService.add({
+                severity: "success",
+                summary: "Successful",
+                detail: "Author Updated",
+                life: 3000,
+              });
+            },
+            error: (err) => {
+
+              this.messageService.add({
+                severity: "error",
+                summary: "Author",
+                detail: `${err.error.Message}`,
+                life: 3000,
+              });
+            }
           });
 
-        this.messageService.add({
-          severity: "success",
-          summary: "Successful",
-          detail: "User Updated",
-          life: 3000,
-        });
+      } else {
+        this._AuthorService
+          .addAuthor(formData)
+          .subscribe({
+            next: () => {
+              this._AuthorService.getAllAuthor().subscribe((author) => {
+                this.authors = author;
+              })
+              this.messageService.add({
+                severity: "success",
+                summary: "Successful",
+                detail: "Author Added",
+                life: 3000,
+              });
+            },
+            error: (err) => {
+              this.messageService.add({
+                severity: "error",
+                summary: "Author",
+                detail: `${err.error.Message}`,
+                life: 3000,
+              });
+            }
+          });
+
       }
 
       this.authors = [...this.authors];
@@ -152,7 +210,7 @@ export class AdminAuthorComponent {
         _id: "",
         first_name: "",
         last_name: "",
-        date_of_birth: new Date(),
+        date_of_birth: "",
         image_url: "",
         author_info: "",
       };
