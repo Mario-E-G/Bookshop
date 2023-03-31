@@ -31,15 +31,10 @@
     <div class="col-5 text-center">
       <img class="w-75 mb-3" style="border-radius: 10px;" [src]="book?.book?.image_url" alt="{{ book?.book?.name }}" />
       <div class="d-flex align-items-center justify-content-center">
-        <p-rating class="" [readonly]="user.email == ''" [(ngModel)]="rating.rate"
+        <p-rating class="" [readonly]="user.email == ''" [(ngModel)]="rating"
           (ngModelChange)="onRatingChanged($event)"></p-rating>
         <span class="mx-2 mb-1">({{ book?.totalRates }})</span>
       </div>
-      <!-- <div class="row justify-content-center align-items-center my-3">
-        <div class="w-50">
-
-        </div>
-      </div> -->
     </div>
     <div class="col-7">
       <div>

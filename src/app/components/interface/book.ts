@@ -7,6 +7,7 @@ export interface Ibook {
   book_id?: IfilteredBook;
   image_url?: string;
   name?: string;
+  book_description?: string;
   category_id?: ICategory;
   author_id?: Iauthor;
 }

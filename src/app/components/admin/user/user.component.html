@@ -27,6 +27,7 @@
                 <th pSortableColumn="gender">Gender <p-sortIcon field="gender"></p-sortIcon></th>
                 <th>Image</th>
                 <th pSortableColumn="email">E-mail <p-sortIcon field="email"></p-sortIcon></th>
+                <!-- <th pSortableColumn="password">Password<p-sortIcon field="password"></p-sortIcon></th> -->
                 <th pSortableColumn="address">Address <p-sortIcon field="address"></p-sortIcon></th>
                 <th></th>
             </tr>
@@ -39,6 +40,7 @@
                 <td><img [src]="user.image_url" [alt]="user.first_name" width="80" height="60"
                         style="border-radius: 10px;" class="shadow-4" /></td>
                 <td>{{user.email}}</td>
+                <!-- <td>{{user.password}}</td> -->
                 <td>{{user.address}}</td>
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
@@ -56,8 +58,7 @@
     </p-table>
 </div>
 
-<p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="User Details" [modal]="true"
-    styleClass="p-fluid">
+<p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="User Details" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
         <form [formGroup]="registerForm" (ngSubmit)="registerForm">
 
@@ -106,6 +107,12 @@
                     required autofocus />
                 <small class="p-error" *ngIf="submitted && !user.email">email is required.</small>
             </div>
+            <!-- <div class="field mt-2">
+                <label for="name">Password</label>
+                <input type="password" pInputText formControlName="password" id="password" name="password"
+                    [(ngModel)]="user.password" required autofocus />
+                <small class="p-error" *ngIf="submitted && !user.password">password is required.</small>
+            </div> -->
             <!-- <div class="field mt-2">
                 <label for="name">Password</label>
                 <div class="d-flex">

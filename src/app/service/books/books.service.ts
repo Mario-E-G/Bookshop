@@ -44,6 +44,8 @@ export class BooksService {
   }
 
   updateBook(updatedBook: any, book_id: any): Observable<bookReview> {
+    console.log(updatedBook);
+
     return this._HttpClient.patch<bookReview>(
       `http://localhost:5000/profile/bookreview/${book_id}`,
       updatedBook,

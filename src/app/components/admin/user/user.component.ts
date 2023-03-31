@@ -65,16 +65,16 @@ export class AdminUserComponent {
             ),
           ],
         ],
-        // password: [
-        //   "",
-        //   [
-        //     Validators.required,
-        //     Validators.minLength(8),
-        //     Validators.pattern(
-        //       /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/
-        //     ),
-        //   ],
-        // ],
+        password: [
+          "",
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.pattern(
+              /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/
+            ),
+          ],
+        ],
         address: [""],
         gender: [""],
         image_url: [""],

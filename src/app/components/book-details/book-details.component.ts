@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { ConfirmationService, MessageService } from "primeng/api";
 import { AuthService } from "src/app/service/authentication/auth.service";
 import { BooksService } from "src/app/service/books/books.service";
 import { Ibook } from "../interface/book";
@@ -10,6 +11,9 @@ import { StarRatingColor } from "../stars-rating/stars-rating.component";
   selector: "app-book-details",
   templateUrl: "./book-details.component.html",
   styleUrls: ["./book-details.component.css"],
+  providers: [MessageService, ConfirmationService],
+
+
 })
 export class BookDetailsComponent {
   error?: string;
@@ -33,7 +37,8 @@ export class BookDetailsComponent {
   constructor(
     private _BookService: BooksService,
     private _Router: ActivatedRoute,
-    private _UserService: AuthService
+    private _UserService: AuthService,
+    private messageService: MessageService,
   ) {
     this._UserService.currentLogUser.subscribe((user) => {
       this.user = user;
@@ -81,11 +86,28 @@ export class BookDetailsComponent {
   onRatingChanged(rating: any) {
     const rate = { rate: rating };
     this.rating = rating;
+    console.log(rating);
+    
     this._BookService
       .updateBook(rate, this.book_id)
-      .subscribe((response) => {
-        this.rating = response;
-        console.log(this.rating.rate);
+      .subscribe({
+        next: (response) => {
+          this.rating = response;
+          this.messageService.add({
+            severity: "success",
+            summary: "Successful",
+            detail: "rating updated",
+            life: 3000,
+          });
+        },
+        error: (err) => {
+          this.messageService.add({
+            severity: "errpr",
+            summary: "error",
+            detail: `${err.error.Message}`,
+            life: 3000,
+          })
+        }
       });
 
     this._BookService.getBookById(this.book_id).subscribe((book) => {
@@ -98,8 +120,11 @@ export class BookDetailsComponent {
     const book_status = { book_status: newStatus };
     this._BookService
       .updateBook(book_status, this.book_id)
-      .subscribe((response) => {
-        console.log(response);
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+        error: (err) => { }
       });
   }
 
@@ -178,9 +203,11 @@ export class BookDetailsComponent {
       }
     })
   }
+
   onUpdateReviewText() {
     this.showReviewForUpdate = true;
   }
+
   updateReview(newReview: any, review_id: any) {
     const newRev = { review: newReview.value };
     this._BookService.updateReviewText(newRev, review_id).subscribe({
