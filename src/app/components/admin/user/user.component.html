@@ -56,56 +56,75 @@
     </p-table>
 </div>
 
-<p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true"
+<p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="User Details" [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="content">
-        <div class="field mt-2">
-            <label for="name">First Name</label>
-            <input type="text" pInputText id="first_name" name="first_name" [(ngModel)]="user.first_name" required
-                autofocus />
-            <small class="p-error" *ngIf="submitted && !user.first_name">first name is required.</small>
-        </div>
-        <div class="field mt-2">
-            <label for="name">Last Name</label>
-            <input type="text" pInputText id="last_name" name="last_name" [(ngModel)]="user.last_name" required
-                autofocus />
-            <small class="p-error" *ngIf="submitted && !user.last_name">last name is required.</small>
-        </div>
-        <div class="field mt-2">
-            <label class="mb-3">Gender</label>
-            <div class="formgrid grid">
-                <div class="field-radiobutton col-6 d-flex justify-content-between">
-                    <p-radioButton id="category1" name="gender" value="male" [(ngModel)]="user.gender"></p-radioButton>
-                    <label for="category1">Male</label>
-                    <p-radioButton id="category2" name="gender" value="female"
-                        [(ngModel)]="user.gender"></p-radioButton>
-                    <label for="category2">Female</label>
+        <form [formGroup]="registerForm" (ngSubmit)="registerForm">
+
+            <img [src]="user.image_url" [alt]="user.image_url" class="product-image" *ngIf="user.image_url">
+
+            <div class="field mt-2">
+                <label for="name">First Name</label>
+                <input type="text" pInputText id="first_name" formControlName="first_name" name="first_name"
+                    [(ngModel)]="user.first_name" required autofocus />
+                <small class="p-error" *ngIf="submitted && !user.first_name">first name is required.</small>
+            </div>
+            <div class="field mt-2">
+                <label for="name">Last Name</label>
+                <input type="text" pInputText id="last_name" formControlName="last_name" name="last_name"
+                    [(ngModel)]="user.last_name" required autofocus />
+                <small class="p-error" *ngIf="submitted && !user.last_name">last name is required.</small>
+            </div>
+            <div class="field mt-2">
+                <label class="mb-3">Gender</label>
+                <div class="formgrid grid">
+                    <div class="field-radiobutton col-6 d-flex justify-content-between">
+                        <p-radioButton id="male" name="gender" formControlName="gender" value="male"
+                            [(ngModel)]="user.gender"></p-radioButton>
+                        <label for="male">Male</label>
+                        <p-radioButton id="femlae" name="gender" formControlName="gender" value="female"
+                            [(ngModel)]="user.gender"></p-radioButton>
+                        <label for="female">Female</label>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="mt-2">
-            <p-toolbar>
-                <ng-template pTemplate="right">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <img [src]="user.image_url" [alt]="user.image_url" class="product-image" *ngIf="user.image_url"
-                            style="width:100px">
-                        <p-fileUpload class="form-control-input mx-2" mode="basic" name="image_url"
-                            (onSelect)="onFileSelected($event)" accept="image/*" label="Upload"
-                            chooseLabel="Import Image"></p-fileUpload>
-                    </div>
-                </ng-template>
-            </p-toolbar>
-        </div>
-        <div class="field mt-2">
-            <label for="name">E-mail</label>
-            <input type="text" pInputText id="email" name="email" [(ngModel)]="user.email" required autofocus />
-            <small class="p-error" *ngIf="submitted && !user.email">email is required.</small>
-        </div>
-        <div class="field mt-2">
-            <label for="name">Address</label>
-            <input type="text" pInputText id="address" name="address" [(ngModel)]="user.address" required autofocus />
-            <small class="p-error" *ngIf="submitted && !user.address">address is required.</small>
-        </div>
+            <div class="mt-2">
+                <p-toolbar>
+                    <ng-template pTemplate="right">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <img [src]="user.image_url" [alt]="user.image_url" class="product-image"
+                                *ngIf="user.image_url" style="width:100px">
+                            <input id="image_url" type="file" (change)="onFileSelected($event)"
+                                formControlName="image_url" class="form-control bg-light text-dark" />
+                        </div>
+                    </ng-template>
+                </p-toolbar>
+            </div>
+            <div class="field mt-2">
+                <label for="name">E-mail</label>
+                <input type="text" pInputText formControlName="email" id="email" name="email" [(ngModel)]="user.email"
+                    required autofocus />
+                <small class="p-error" *ngIf="submitted && !user.email">email is required.</small>
+            </div>
+            <!-- <div class="field mt-2">
+                <label for="name">Password</label>
+                <div class="d-flex">
+                    <input [type]="passwd" pInputText formControlName="password" id="password" name="password"
+                        [(ngModel)]="user.password" required autofocus />
+                    <a class="btn btn-outline-secondary" (click)="onClick()">
+                        <i class="fa fa-eye" aria-hidden="true" *ngIf="!show"></i>
+                        <i class="fa fa-eye-slash" aria-hidden="true" *ngIf="show"></i>
+                    </a>
+                </div>
+                <small class="p-error" *ngIf="submitted && !user.password">password is required.</small>
+            </div> -->
+            <div class="field mt-2">
+                <label for="name">Address</label>
+                <input type="text" pInputText formControlName="address" id="address" name="address"
+                    [(ngModel)]="user.address" required autofocus />
+                <small class="p-error" *ngIf="submitted && !user.address">address is required.</small>
+            </div>
+        </form>
     </ng-template>
 
     <ng-template pTemplate="footer">

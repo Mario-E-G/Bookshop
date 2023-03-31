@@ -54,11 +54,7 @@ export class NavbarComponent {
     });
   }
 
-  // hideNavbar(): void {
-  //   if (this.navbar.nativeElement.classList.contains("show")) {
-  //     this.navbar.nativeElement.classList.remove("show");
-  //   }
-  // }
+  ngOnInit(): void { }
 
   toggleNavbar(): void {
     this.navbarExpanded = !this.navbarExpanded;
@@ -70,9 +66,4 @@ export class NavbarComponent {
     this.isAdmin = false;
   }
 
-  dropdownMenu(): void {
-    // implementation for dropdownMenu method
-  }
-
-  ngOnInit(): void { }
 }

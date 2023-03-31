@@ -69,6 +69,7 @@
     <div class="btn-group" *ngIf="islogged">
       <a id="profile-btn" type="button" class="dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static"
         aria-expanded="false">
+        
         <img src="{{ user?.image_url }}" alt="{{ user?.first_name }}" />
         {{ user?.first_name | titlecase}} {{user?.last_name | titlecase }}
       </a>

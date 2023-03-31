@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import {
   ConfirmationService,
   MessageService,
@@ -12,13 +13,11 @@ import { ICategory } from "../../interface/category";
   selector: "app-category",
   templateUrl: "./category.component.html",
   styles: [
-    `
-      :host ::ng-deep .p-dialog .product-image {
+    `:host ::ng-deep .p-dialog .product-image {
         width: 150px;
         margin: 0 auto 2rem auto;
         display: block;
-      }
-    `,
+      }`,
   ],
   providers: [MessageService, ConfirmationService],
 })
@@ -31,17 +30,31 @@ export class AdminCategoryComponent {
   statuses!: any[];
   selectedCategory!: ICategory;
   error!: string;
+  registerForm!: FormGroup;
+  selectedFile!: File;
   constructor(
     private _CategoryService: CategoryService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
-  ) {}
+    private confirmationService: ConfirmationService,
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit() {
+    this.buildForm();
     this._CategoryService.getAllCategory().subscribe((category) => {
       console.log(category);
       this.categories = category;
     });
+  }
+
+
+  buildForm(): void {
+    this.registerForm = this.formBuilder.group(
+      {
+        name: ["", Validators.required],
+        image_url: [""],
+      }
+    )
   }
 
   openNew() {
@@ -92,20 +105,23 @@ export class AdminCategoryComponent {
       icon: "pi pi-exclamation-triangle",
       accept: () => {
         this._CategoryService.deleteCategory(category._id).subscribe({
-          next: (response: any) => {
-            this.categories = response.category;
+          next: () => {
+            this._CategoryService.getAllCategory().subscribe((category) => {
+              this.categories = category;
+            })
+            this.messageService.add({
+              severity: "success",
+              summary: "Successful",
+              detail: "Category Deleted",
+              life: 3000,
+            });
           },
           error: (err) => {
             // console.log(err);
             this.error = err.error.Message;
           },
         });
-        this.messageService.add({
-          severity: "success",
-          summary: "Successful",
-          detail: "User Deleted",
-          life: 3000,
-        });
+
       },
       reject: () => {
         console.log("rejected");
@@ -118,18 +134,60 @@ export class AdminCategoryComponent {
     this.submitted = false;
   }
 
+  onFileSelected(event: any) {
+    this.selectedFile = <File>event.target.files[0];
+  }
+
+  get f() {
+    return this.registerForm.controls;
+  }
+
   saveCategory() {
     this.submitted = true;
 
     if (this.category?.name.trim()) {
+      //add all inputs to form data;
+      const formData = new FormData();
+      formData.append("name", this.f["name"].value);
+      if (this.selectedFile) {
+        formData.append("image_url", this.selectedFile, this.selectedFile.name);
+      }
+
       if (this.category._id) {
         this.categories[this.findIndexById(this.category._id)] = this.category;
-        this.messageService.add({
-          severity: "success",
-          summary: "Successful",
-          detail: "category Updated",
-          life: 3000,
-        });
+        this._CategoryService.updateCategory(formData, this.category._id).subscribe({
+          next: () => {
+            this._CategoryService.getAllCategory().subscribe((category) => {
+              this.categories = category;
+            })
+            this.messageService.add({
+              severity: "success",
+              summary: "Successful",
+              detail: "category Updated",
+              life: 3000,
+            });
+          },
+          error: () => {
+            console.log("err");
+          }
+        })
+      } else {
+        this._CategoryService.addCategory(formData).subscribe({
+          next: () => {
+            this._CategoryService.getAllCategory().subscribe((category) => {
+              this.categories = category;
+            })
+            this.messageService.add({
+              severity: "success",
+              summary: "Successful",
+              detail: "category Added",
+              life: 3000,
+            });
+          },
+          error: (err) => {
+            console.log(err);
+          }
+        })
       }
 
       this.categories = [...this.categories];

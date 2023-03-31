@@ -69,31 +69,31 @@ const routes: Routes = [
         path: "category",
         canActivate: [AdminGuardGuard],
         component: AdminCategoryComponent,
-        data: { state: 'admin/category' }
+        // data: { state: 'admin/category' }
       },
       {
         path: "home",
         canActivate: [AdminGuardGuard],
         component: AdminHomeComponent,
-        data: { state: 'admin/home' }
+        // data: { state: 'admin/home' }
       },
       {
         path: "user",
         canActivate: [AdminGuardGuard],
         component: AdminUserComponent,
-        data: { state: 'admin/user' }
+        // data: { state: 'admin/user' }
       },
       {
         path: "author",
         canActivate: [AdminGuardGuard],
         component: AdminAuthorComponent,
-        data: { state: 'admin/author' }
+        // data: { state: 'admin/author' }
       },
       {
         path: "book",
         canActivate: [AdminGuardGuard],
         component: AdminBookComponent,
-        data: { state: 'admin/book' }
+        // data: { state: 'admin/book' }
       },
     ],
   },

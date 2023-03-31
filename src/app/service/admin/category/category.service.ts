@@ -12,7 +12,7 @@ export class CategoryService {
   constructor(
     private _HttpClient: HttpClient,
     private _UserService: AuthService
-  ) {}
+  ) { }
 
   headers = { "access-token": `${this._UserService.getToken()}` };
 
@@ -30,6 +30,17 @@ export class CategoryService {
       `http://localhost:5000/admin/category/${categoryId}`,
       this.requestOptions
     );
+  }
+
+  addCategory(data: any): Observable<any> {
+    return this._HttpClient.post<any>(`http://localhost:5000/admin/category`, data, this.requestOptions)
+  }
+
+  updateCategory(data: any, category_id: any): Observable<any> {
+    return this._HttpClient.patch<any>(`http://localhost:5000/admin/category/${category_id}`,
+      data,
+      this.requestOptions
+    )
   }
 
   deleteCategory(categoryId: any): Observable<Ibook> {

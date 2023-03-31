@@ -1,4 +1,6 @@
+import { NONE_TYPE } from '@angular/compiler';
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService } from "primeng/api";
 import { MessageService } from "primeng/api";
 import { AuthorService } from 'src/app/service/admin/author/author.service';
@@ -26,17 +28,20 @@ export class AdminBookComponent {
   statuses!: any[];
   selectedBook!: any;
   error!: string;
-  selectedFile!: File;
+  selectedFile?: File;
   newBook: boolean = false;
+  registerForm!: FormGroup;
   constructor(
     private _BookService: BookService,
     private _CateService: CategoryService,
     private _AuthorService: AuthorService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit() {
+    this.buildForm();
     this._BookService.getAllBook().subscribe((book) => {
       console.log(book);
       this.books = book;
@@ -54,18 +59,27 @@ export class AdminBookComponent {
     });
   }
 
+  buildForm(): void {
+    this.registerForm = this.formBuilder.group(
+      {
+        name: ["", Validators.required],
+        category_id: ["", Validators.required],
+        author_id: ["", Validators.required],
+        image_url: [""],
+        price: [""]
+      }
+    )
+  }
+
   selectAuthor(event: any) {
     console.log(event.target.value);
     this.book.author_id = event.target.value;
   }
 
-
-
   selectCategory(event: any) {
     console.log(event.target.value);
     this.book.category_id = event.target.value;
   }
-
 
   openNew() {
     this.newBook = true;
@@ -73,7 +87,8 @@ export class AdminBookComponent {
       name: "",
       image_url: "",
       category_id: "",
-      author_id: ""
+      author_id: "",
+      price: ""
     };
     this.submitted = false;
     this.newBook = true;
@@ -92,27 +107,28 @@ export class AdminBookComponent {
       icon: "pi pi-exclamation-triangle",
       accept: () => {
         this._BookService.deleteBook(book._id).subscribe({
-          next: (response: any) => {
-            this.books = response.books;
+          next: () => {
             this._BookService.getAllBook().subscribe((book) => {
-              console.log(book);
               this.books = book;
+            });
+            this.messageService.add({
+              severity: "success",
+              summary: "Successful",
+              detail: "Book Deleted",
+              life: 3000,
             });
           },
           error: (err) => {
-            // console.log(err);
             this.error = err.error.Message;
+            this.messageService.add({
+              severity: "error",
+              summary: "Book",
+              detail: `${err.error.Message}`,
+              life: 3000,
+            });
           },
         });
-        this.messageService.add({
-          severity: "success",
-          summary: "Successful",
-          detail: "User Deleted",
-          life: 3000,
-        });
-      },
-      reject: () => {
-        console.log("rejected");
+
       },
     });
   }
@@ -123,56 +139,79 @@ export class AdminBookComponent {
   }
 
   onFileSelected(event: any) {
-    this.selectedFile = <File>event.currentFiles[0];
+    const file = event.target.files[0];
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+    if (!allowedExtensions.exec(file.name)) {
+      this.messageService.add({
+        severity: "error",
+        summary: "book",
+        detail: "Invalid file type. Please select a JPEG, PNG, or JPG file.",
+        life: 3000,
+      });
+      this.selectedFile = undefined; // Clear the selected file
+      event.target.value = null; // Clear the input element
+      return;
+    }
+    // Do something with the valid file
+    this.selectedFile = event.target.files[0];
   }
 
   saveBook() {
     this.submitted = true;
     if ((this.book?.name).trim()) {
+
+      const formData = new FormData();
+      formData.append("name", this.book.name);
+      formData.append("category_id", this.book.category_id);
+      formData.append("author_id", this.book.author_id);
+      if (this.selectedFile) {
+        formData.append("image_url", this.selectedFile, this.selectedFile.name);
+      }
+
       if (this.book._id) {
         this.books[this.findIndexById(this.book?._id)] = this.book;
-        const updateData = new FormData();
 
-        updateData.append("name", this.book.name);
-        if (this.selectedFile) {
-          updateData.append("image_url", this.selectedFile, this.selectedFile.name);
-          console.log("updatedDate : ");
-          console.log(updateData);
-        }
-        // this._BookService
-        //   .updateBook(formData, this.user._id)
-        //   .subscribe((user) => {
-        //     console.log(user);
-        //   });
-
-        this.messageService.add({
-          severity: "success",
-          summary: "Successful",
-          detail: "User Updated",
-          life: 3000,
-        });
+        this._BookService
+          .updateBook(formData, this.book._id)
+          .subscribe({
+            next: () => {
+              this._BookService.getAllBook().subscribe((book) => {
+                this.books = book;
+              });
+              this.messageService.add({
+                severity: "success",
+                summary: "Successful",
+                detail: "Book Updated",
+                life: 3000,
+              });
+            },
+            error: () => {
+              this.messageService.add({
+                severity: "error",
+                summary: "book",
+                detail: "Couldn't update book",
+                life: 3000,
+              });
+            }
+          });
       } else {
-        console.log(this.book);
-        const newData = new FormData();
-        newData.append("name", this.book.name);
-        newData.append("name", this.book.category_id);
-        newData.append("name", this.book.author_id);
-        if (this.selectedFile) {
-          newData.append("image_url", this.selectedFile, this.selectedFile.name);
-          console.log("updatedDate : ");
-          console.log(newData);
-        }
-
-        this._BookService.addBook(newData).subscribe({
-          next: (book) => {
+        this._BookService.addBook(formData).subscribe({
+          next: () => {
             this._BookService.getAllBook().subscribe((book) => {
-              console.log(book);
               this.books = book;
             });
             this.messageService.add({
               severity: "success",
               summary: "Successful",
-              detail: "User Updated",
+              detail: "Book Added",
+              life: 3000,
+            });
+          },
+          error: (err) => {
+            this.messageService.add({
+              severity: "error",
+              summary: "book",
+              detail: `${err.error.Message}`,
               life: 3000,
             });
           }
@@ -185,6 +224,10 @@ export class AdminBookComponent {
     this.book = {
       name: "",
       image_url: "",
+      category_id: "",
+      author_id: "",
+      price: ""
+
     };
 
   }

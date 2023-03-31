@@ -31,9 +31,13 @@ export class BookService {
     );
   }
 
-  deleteBook(user_id: any): Observable<User> {
+  updateBook(data: any, book_id: any): Observable<any> {
+    return this._HttpClient.patch(`http://localhost:5000/admin/book/${book_id}`, data, this.requestOptions);
+  }
+
+  deleteBook(book_id: any): Observable<User> {
     return this._HttpClient.delete<User>(
-      `http://localhost:5000/admin/book/${user_id}`,
+      `http://localhost:5000/admin/book/${book_id}`,
       this.requestOptions
     );
   }

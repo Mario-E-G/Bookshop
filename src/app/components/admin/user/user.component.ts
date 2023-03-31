@@ -4,6 +4,7 @@ import { User } from "../../interface/user";
 import { ConfirmationService } from "primeng/api";
 import { MessageService } from "primeng/api";
 import { MenuItem } from "primeng/api"; //api
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-user",
@@ -29,17 +30,56 @@ export class AdminUserComponent {
   selectedUser!: User;
   error!: string;
   selectedFile!: File;
+  registerForm!: FormGroup;
+  passwd!: string;
+  show: boolean = false;
   constructor(
     private _UserService: UserService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private formBuilder: FormBuilder,
+
   ) { }
 
   ngOnInit() {
+    this.passwd = "password";
+    this.buildForm();
     this._UserService.getAllUser().subscribe((user) => {
       console.log(user);
       this.users = user;
     });
+  }
+
+  buildForm(): void {
+    this.registerForm = this.formBuilder.group(
+      {
+        first_name: ["", Validators.required],
+        last_name: ["", Validators.required],
+        email: [
+          "",
+          [
+            Validators.required,
+            Validators.email,
+            Validators.pattern(
+              /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/
+            ),
+          ],
+        ],
+        // password: [
+        //   "",
+        //   [
+        //     Validators.required,
+        //     Validators.minLength(8),
+        //     Validators.pattern(
+        //       /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/
+        //     ),
+        //   ],
+        // ],
+        address: [""],
+        gender: [""],
+        image_url: [""],
+      },
+    );
   }
 
   openNew() {
@@ -97,8 +137,11 @@ export class AdminUserComponent {
   }
 
   onFileSelected(event: any) {
-    // console.log(event);
-    this.selectedFile = <File>event.currentFiles[0];
+    this.selectedFile = <File>event.target.files[0];
+  }
+
+  get f() {
+    return this.registerForm.controls;
   }
 
   saveUser() {
@@ -106,43 +149,55 @@ export class AdminUserComponent {
     this.submitted = true;
 
     if ((this.user.first_name + this.user.last_name).trim()) {
+      const formData = new FormData();
+
+      formData.append("first_name", this.f["first_name"].value);
+      formData.append("last_name", this.f["last_name"].value);
+      formData.append("email", this.f["email"].value);
+      // formData.append("password", this.f["password"].value);
+      formData.append("gender", this.f["gender"].value);
+      formData.append("address", this.f["address"].value);
+      // formData.append("birth_date", this.f["birth_date"].value);
+
+      if (this.selectedFile) {
+        formData.append("image_url", this.selectedFile, this.selectedFile.name);
+      }
+
       if (this.user._id) {
         this.users[this.findIndexById(this.user._id)] = this.user;
 
-
-        const updateData = new FormData();
-
-        updateData.append("first_name", this.user.first_name);
-        // console.log("After f name :   " + updateData.has("first_name"));
-        updateData.append("last_name", this.user.last_name);
-        updateData.append("email", this.user.email);
-        updateData.append("gender", this.user.gender || "");
-        updateData.append("address", this.user.address || "");
-        if (this.selectedFile) {
-          updateData.append("image_url", this.selectedFile, this.selectedFile.name);
-          console.log(updateData);
-        }
-        // console.log(this.user.first_name);
-        // console.log(this.user.last_name);
-        // console.log(this.user.email);
-        // console.log(this.user.gender);
-        // console.log(this.user.address);
-        // console.log(this.user.image_url);
-
-
-
-        // this._UserService
-        //   .updateUser(formData, this.user._id)
-        //   .subscribe((user) => {
-        //     console.log(user);
-        //   });
-
-        this.messageService.add({
-          severity: "success",
-          summary: "Successful",
-          detail: "User Updated",
-          life: 3000,
-        });
+        this._UserService
+          .updateUser(formData, this.user._id)
+          .subscribe({
+            next: () => {
+              this._UserService.getAllUser().subscribe((user) => {
+                this.users = user;
+              })
+              this.messageService.add({
+                severity: "success",
+                summary: "Successful",
+                detail: "User Updated",
+                life: 3000,
+              });
+            }
+          });
+      } else {
+        this._UserService.addUser(formData).subscribe({
+          next: () => {
+            this._UserService.getAllUser().subscribe((user) => {
+              this.users = user;
+            })
+            this.messageService.add({
+              severity: "success",
+              summary: "Successful",
+              detail: "User Added",
+              life: 3000,
+            });
+          },
+          error: (err) => {
+            console.log(err);
+          }
+        })
       }
 
       this.users = [...this.users];
@@ -171,5 +226,15 @@ export class AdminUserComponent {
       }
     }
     return index;
+  }
+
+  onClick() {
+    if (this.passwd === "password") {
+      this.passwd = "text";
+      this.show = true;
+    } else {
+      this.passwd = "password";
+      this.show = false;
+    }
   }
 }
