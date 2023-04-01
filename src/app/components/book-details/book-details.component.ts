@@ -39,6 +39,8 @@ export class BookDetailsComponent {
     private _Router: ActivatedRoute,
     private _UserService: AuthService,
     private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+
   ) {
     this._UserService.currentLogUser.subscribe((user) => {
       this.user = user;
@@ -63,9 +65,8 @@ export class BookDetailsComponent {
     if (this.isLogged) {
       this._BookService
         .getBookRate(this.book_id, this.user.user_id)
-        .subscribe((rate) => {
-          this.rating = rate.rate;
-          console.log(this.rating.rate);
+        .subscribe((response) => {
+          this.rating = response.rate.rate;
         });
     }
 
@@ -75,6 +76,12 @@ export class BookDetailsComponent {
       },
       error: (err) => {
         this.error = err.error.Message;
+        this.messageService.add({
+          severity: "error",
+          summary: "Reviews",
+          detail: "No Reviews Found",
+          life: 3000,
+        });
       },
     });
   }
@@ -86,17 +93,16 @@ export class BookDetailsComponent {
   onRatingChanged(rating: any) {
     const rate = { rate: rating };
     this.rating = rating;
-    console.log(rating);
-    
+
     this._BookService
       .updateBook(rate, this.book_id)
       .subscribe({
         next: (response) => {
-          this.rating = response;
+          this.rating = response.rate;
           this.messageService.add({
             severity: "success",
             summary: "Successful",
-            detail: "rating updated",
+            detail: "Rating updated",
             life: 3000,
           });
         },
@@ -122,15 +128,26 @@ export class BookDetailsComponent {
       .updateBook(book_status, this.book_id)
       .subscribe({
         next: (response) => {
-          console.log(response);
+          this.messageService.add({
+            severity: "success",
+            summary: "Status",
+            detail: "Status updated",
+            life: 3000,
+          });
         },
-        error: (err) => { }
+        error: (err) => {
+          this.messageService.add({
+            severity: "error",
+            summary: "Status",
+            detail: `${err.error.Message}`,
+            life: 3000,
+          });
+        }
       });
   }
 
   changeReview(newReview: any) {
     if (this.isLogged == true) {
-      console.log(newReview.value);
 
       const review = {
         review: newReview.value,
@@ -141,67 +158,124 @@ export class BookDetailsComponent {
         },
       };
 
-      console.log(this.reviews);
       this.reviews.push(review);
-      console.log(this.reviews);
 
       this._BookService
         .addReviewText(review, this.book_id, this.user.user_id)
         .subscribe({
-          next: (response) => {
-            console.log(response);
+          next: (response: any) => {
+            this.reviews = response.review
+
+            this.messageService.add({
+              severity: "success",
+              summary: "Review",
+              detail: "Review Added Successfully",
+              life: 3000,
+            });
           },
           error: (err) => {
+            this.messageService.add({
+              severity: "error",
+              summary: "Review",
+              detail: `${err.error.Message}`,
+              life: 3000,
+            });
             this.haveTheBook = true;
-            this.error = err.error.Message;
+            // this.error = err.error.Message;
           },
         });
       this.visible = false;
     } else {
       this.added = true;
-      this.error = "You have to login first";
+      this.messageService.add({
+        severity: "error",
+        summary: "Review",
+        detail: `You have to login first`,
+        life: 3000,
+      });
       this.visible = false;
     }
   }
 
-  addReview() {
+  addReview() { // add book to shelf
     if (this.isLogged == true) {
       this._BookService.addBookReview(this.book_id).subscribe({
         next: (book) => {
-          console.log(book);
+          this.messageService.add({
+            severity: "success",
+            summary: "Book",
+            detail: `Book Added To Shelf`,
+            life: 3000,
+          });
         },
         error: (err) => {
           this.haveTheBook = true;
-          this.error = err.error.Message;
-          console.log(err.error.Message);
+          this.messageService.add({
+            severity: "error",
+            summary: "Book",
+            detail: `You have to login first`,
+            life: 3000,
+          });
+          // this.error = err.error.Message;
+          // console.log(err.error.Message);
         },
       });
       this.visible = false;
     } else {
       this.added = true;
-      this.error = "You have to login first";
+      this.messageService.add({
+        severity: "error",
+        summary: "Book",
+        detail: `You have to login first`,
+        life: 3000,
+      });
       this.visible = false;
     }
   }
+
   onDeleteReviewText(review_id: any) {
-    console.log(review_id);
-    this._BookService.deleteReviewText(review_id).subscribe({
-      next: (newreview) => {
-        console.log(newreview);
-        this.reviews = newreview.review;
-        // this._BookService.getAllReviewForSpecificBook(this.book_id).subscribe({
-        //   next: (reviews) => {
-        //     this.reviews = reviews;
-        //   },
-        //   error: (err) => {
-        //     this.error = err.error.Message;
-        //   },
-        // });
-      },
-      error: (err) => {
-        console.log("err");
+    this.confirmationService.confirm({
+      message: "Are you sure you want to delete " + review_id + "?",
+      header: "Confirm",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => {
+        this._BookService.deleteReviewText(review_id).subscribe({
+          next: (newreview) => {
+
+            this.reviews = newreview.review;
+
+            this.messageService.add({
+              severity: "success",
+              summary: "Review",
+              detail: `Review Delete`,
+              life: 3000,
+            });
+            this._BookService.getAllReviewForSpecificBook(this.book_id).subscribe({
+              next: (reviews) => {
+                this.reviews = reviews;
+              },
+              error: (err) => {
+                this.messageService.add({
+                  severity: "error",
+                  summary: "Review",
+                  detail: `Couldn't Retreive Old Reviews --> ${err.error.Message}`,
+                  life: 3000,
+                });
+              },
+            });
+          },
+          error: (err) => {
+            this.messageService.add({
+              severity: "error",
+              summary: "Review",
+              detail: `Couldn't Delete Review --> ${err.error.Message}`,
+              life: 3000,
+            });
+          }
+        })
       }
-    })
+    });
+
   }
 
   onUpdateReviewText() {
@@ -212,19 +286,34 @@ export class BookDetailsComponent {
     const newRev = { review: newReview.value };
     this._BookService.updateReviewText(newRev, review_id).subscribe({
       next: (review) => {
-        console.log(review);
+        this.messageService.add({
+          severity: "success",
+          summary: "Review",
+          detail: `Review Updated`,
+          life: 3000,
+        });
         this.showReviewForUpdate = false;
         this._BookService.getAllReviewForSpecificBook(this.book_id).subscribe({
           next: (reviews) => {
             this.reviews = reviews;
           },
           error: (err) => {
-            this.error = err.error.Message;
+            this.messageService.add({
+              severity: "error",
+              summary: "Review",
+              detail: `${err.error.Message}`,
+              life: 3000,
+            });
           },
         });
       },
       error: (err) => {
-        console.log("err");
+        this.messageService.add({
+          severity: "error",
+          summary: "Review",
+          detail: `${err.error.Message}`,
+          life: 3000,
+        });
         this.showReviewForUpdate = false;
       }
     })

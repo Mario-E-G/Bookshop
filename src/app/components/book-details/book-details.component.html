@@ -1,3 +1,6 @@
+<p-toast></p-toast>
+
+
 <div class="container">
   <div class="row">
     <div class="col-12">
@@ -111,8 +114,8 @@
             <h3 class="text-center">Make review</h3>
             <textarea #textarea name="" id="" cols="100" rows="7"
               style="  padding: 12px 20px;border-radius:10px;"></textarea> <br>
-            <button class="btn btn-outline-success my-2" type="submit" [disabled]="!isLogged && added"
-              (click)="changeReview(textarea)" (visible)="!visible">Add review</button>
+            <button class="btn btn-outline-success my-2" type="submit" (click)="changeReview(textarea)"
+              (visible)="!visible">Add review</button>
           </form>
         </div>
       </p-dialog>
@@ -170,5 +173,5 @@
     </div>
   </div>
 </div>
-
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
 <app-footer></app-footer>
