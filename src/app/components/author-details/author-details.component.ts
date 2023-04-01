@@ -2,7 +2,6 @@ import { Component } from "@angular/core";
 import { Iauthor } from "../interface/author";
 import { AuthorService } from "src/app/service/authors/author.service";
 import { ActivatedRoute } from "@angular/router";
-import { StarRatingColor } from "../stars-rating/stars-rating.component";
 import { Ibook } from "../interface/book";
 
 @Component({
@@ -17,10 +16,7 @@ export class AuthorDetailsComponent {
   book!: Ibook;
   rating: number = 3;
   starCount: number = 5;
-  starColor: StarRatingColor = StarRatingColor.accent;
-  starColorP: StarRatingColor = StarRatingColor.primary;
-  starColorW: StarRatingColor = StarRatingColor.warn;
-
+  
   constructor(
     private _authorservice: AuthorService,
     private _Router: ActivatedRoute

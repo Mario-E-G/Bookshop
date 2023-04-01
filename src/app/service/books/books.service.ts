@@ -37,6 +37,9 @@ export class BooksService {
 
 
   getBookRate(book_id: any, user_id: any): Observable<any> {
+    console.log(user_id);
+    console.log(book_id);
+    
     return this._HttpClient.get(
       `http://localhost:5000/bookreview/rate/${book_id}/${user_id}`,
       this.requestOptions

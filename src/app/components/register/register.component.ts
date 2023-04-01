@@ -43,6 +43,7 @@ export class RegisterComponent implements OnInit {
     this.buildForm();
     this.passwd = "password";
     this.cpasswd = "password";
+
   }
 
   buildForm(): void {
@@ -109,22 +110,26 @@ export class RegisterComponent implements OnInit {
     const file = event.target.files[0];
     const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
     if (!allowedExtensions.exec(file.name)) {
+
       this.messageService.add({
         severity: "error",
-        summary: "Error",
+        summary: "book",
         detail: "Invalid file type. Please select a JPEG, PNG, or JPG file.",
         life: 3000,
-        data: "dddddddd",
       });
       this.selectedFile = undefined; // Clear the selected file
       event.target.value = null; // Clear the input element
+
       return;
     }
     // Do something with the valid file
     this.selectedFile = event.target.files[0];
+    this.choosen = true;
   }
 
   onSubmit(registerForm: FormGroup) {
+
+
     if (this.registerForm.invalid) {
       window.scroll({
         top: 0,
@@ -136,6 +141,7 @@ export class RegisterComponent implements OnInit {
     }
 
     const formData = new FormData();
+
     formData.append("first_name", this.f["first_name"].value);
     formData.append("last_name", this.f["last_name"].value);
     formData.append("email", this.f["email"].value);
@@ -181,13 +187,8 @@ export class RegisterComponent implements OnInit {
           left: 0,
           behavior: "smooth",
         });
-        this.messageService.add({
-          severity: "error",
-          summary: "Error",
-          detail: `${err.error.Message}`,
-          life: 3000,
-        });
-        // this.error = err.error.Message;
+        console.log(err.error.Message);
+        this.error = err.error.Message;
       },
     });
   }
@@ -201,7 +202,6 @@ export class RegisterComponent implements OnInit {
       this.show = false;
     }
   }
-
   onClickCPasswd() {
     if (this.cpasswd === "password") {
       this.cpasswd = "text";

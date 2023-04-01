@@ -1,11 +1,12 @@
 <div class="container mt-0">
   <h1 class="text-center my-4 mt-0">Authors</h1>
   <div class="row">
-    <div class="col-12 justify-content-center align-items-center d-flex my-5">
-      <input type="text" class="form-control mb-3 w-50 " placeholder="Search categories..." [(ngModel)]="searchTerm">
+    
+    <div class="col-12 justify-content-center align-items-center d-flex my-5 animate__animated animate__fadeIn">
+      <input type="text" class="form-control mb-3 w-50 animate__animated animate__fadeIn" placeholder="Search Authors..."
+        [(ngModel)]="searchTerm">
     </div>
-    <!--           *ngFor="let category of categories | Cat_Filter:searchTerm | slice:(currentPage-1)*pageSize:currentPage*pageSize">
- -->
+
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center"
       *ngFor="let author of authors | Author_Filter:searchTerm | slice:(currentPage-1)*pageSize:currentPage*pageSize">
       <div class=" card-img-top my-5">

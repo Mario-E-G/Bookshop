@@ -32,8 +32,6 @@ export class BookService {
   }
 
   updateBook(data: any, book_id: any): Observable<any> {
-    console.log(data);
-    
     return this._HttpClient.patch(`http://localhost:5000/admin/book/${book_id}`, data, this.requestOptions);
   }
 

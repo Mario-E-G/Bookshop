@@ -29,7 +29,7 @@ export class AdminUserComponent {
   statuses!: any[];
   selectedUser!: User;
   error!: string;
-  selectedFile?: File;
+  selectedFile!: File;
   registerForm!: FormGroup;
   passwd!: string;
   show: boolean = false;
@@ -65,16 +65,16 @@ export class AdminUserComponent {
             ),
           ],
         ],
-        password: [
-          "",
-          [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.pattern(
-              /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/
-            ),
-          ],
-        ],
+        // password: [
+        //   "",
+        //   [
+        //     Validators.required,
+        //     Validators.minLength(8),
+        //     Validators.pattern(
+        //       /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/
+        //     ),
+        //   ],
+        // ],
         address: [""],
         gender: [""],
         image_url: [""],
@@ -137,21 +137,7 @@ export class AdminUserComponent {
   }
 
   onFileSelected(event: any) {
-    const file = event.target.files[0];
-    const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-    if (!allowedExtensions.exec(file.name)) {
-      this.messageService.add({
-        severity: "error",
-        summary: "book",
-        detail: "Invalid file type. Please select a JPEG, PNG, or JPG file.",
-        life: 3000,
-      });
-      this.selectedFile = undefined; // Clear the selected file
-      event.target.value = null; // Clear the input element
-      return;
-    }
-    // Do something with the valid file
-    this.selectedFile = event.target.files[0];
+    this.selectedFile = <File>event.target.files[0];
   }
 
   get f() {

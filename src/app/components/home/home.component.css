@@ -8,32 +8,19 @@
   position: relative;
 }
 
-.carousel-caption {
+.slider-text {
   /* position: absolute; */
   top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
-  justify-content:baseline ;
+  justify-content: center;
   align-items: center;
   animation-name: changeText;
-  animation-duration: 5s;
+  animation-duration: 4s;
   animation-iteration-count: infinite;
 }
-
-.carousel-caption h1 {
-  font-size: 5rem;
-  color: #0e0707;
-  text-align: left;
-  font-weight: bold lighter;
-  font-style: inherit;
-  text-shadow: 1px 1px #000;
-}
-
-.carousel-caption span {
-color: hsl(0, 55%, 60%);
-/* color: hsl(0, 60%, 61%); */
-
-}
-
 
 @keyframes changeText {
   0% {
@@ -42,35 +29,23 @@ color: hsl(0, 55%, 60%);
   }
 
   50% {
-    opacity: 1;
+    opacity: 0;
     transform: translateY(-50px);
   }
 
   100% {
-    opacity: 0;
+    opacity: 1;
     transform: translateY(0);
   }
 }
 
-.container {
-  position: relative;
+.slider-text h2 {
+  font-size: 3rem;
+  color: #ca0b0b;
+  text-align: center;
+  text-shadow: 1px 1px #000;
 }
 
-.text-block {
-  position: absolute;
-  top: 160px;
-  right: 20px;
-  color: rgb(13, 6, 6);
-  padding-left: 20px;
-  padding-right: 20px;
-}
-.text-black {
-
-  font-size: 2rem;
-  font-weight:bold ;
-  text-align: left;
-
-}
 /* /////// */
 
 .card-img-top {
