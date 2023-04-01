@@ -24,6 +24,7 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { UsersidebarComponent } from "./components/usersidebar/usersidebar.component";
 import { BooksByCatComponent } from "./components/books-by-cat/books-by-cat.component";
 import { BookDetailsComponent } from "./components/book-details/book-details.component";
+import { StarRatingComponent } from "./components/stars-rating/stars-rating.component";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -55,6 +56,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { Cat_Filter } from "./components/categories/catePipe";
 import { Book_Filter } from "./components/books/bookPipe";
 import { Author_Filter } from "./components/authors/authorPipe";
+import { CheckboxModule } from 'primeng/checkbox';
 
 
 @NgModule({
@@ -74,6 +76,7 @@ import { Author_Filter } from "./components/authors/authorPipe";
     UsersidebarComponent,
     BooksByCatComponent,
     BookDetailsComponent,
+    StarRatingComponent,
     AuthorDetailsComponent,
     AdminCategoryComponent,
     AdminBookComponent,
@@ -119,6 +122,7 @@ import { Author_Filter } from "./components/authors/authorPipe";
     MatProgressBarModule,
     MatSelectModule,
     MatButtonToggleModule,
+    CheckboxModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

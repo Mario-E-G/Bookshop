@@ -34,7 +34,15 @@ export class HomeComponent implements OnInit {
         console.log(err);
       },
     });
-    // this._BooksService. -------------------KONT B7AWL AGEB AL POPULAR BOOKS----------------------------
+
+    // this._BooksService. -------------------KONT B7AWL AGEB AL POPULAR BOOKS----------------------------FINALLY GBTHA
+    this._BooksService.popularBooks().subscribe({
+      next: (books) => {
+        console.log(books);
+
+        this.popularBooks = books;
+      }
+    })
   }
 
   // Method to change the current image

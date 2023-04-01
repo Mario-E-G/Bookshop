@@ -29,7 +29,7 @@ export class AdminUserComponent {
   statuses!: any[];
   selectedUser!: User;
   error!: string;
-  selectedFile!: File;
+  selectedFile?: File;
   registerForm!: FormGroup;
   passwd!: string;
   show: boolean = false;
@@ -38,7 +38,6 @@ export class AdminUserComponent {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private formBuilder: FormBuilder,
-
   ) { }
 
   ngOnInit() {
@@ -65,19 +64,21 @@ export class AdminUserComponent {
             ),
           ],
         ],
-        // password: [
-        //   "",
-        //   [
-        //     Validators.required,
-        //     Validators.minLength(8),
-        //     Validators.pattern(
-        //       /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/
-        //     ),
-        //   ],
-        // ],
+        password: [
+          "",
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.pattern(
+              /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/
+            ),
+          ],
+        ],
         address: [""],
         gender: [""],
         image_url: [""],
+        is_admin: [""],
+        birth_date: [""],
       },
     );
   }
@@ -93,6 +94,7 @@ export class AdminUserComponent {
       password: "",
       gender: "",
       image_url: "",
+      is_admin: false,
     };
     this.submitted = false;
     this.userDialog = true;
@@ -137,7 +139,21 @@ export class AdminUserComponent {
   }
 
   onFileSelected(event: any) {
-    this.selectedFile = <File>event.target.files[0];
+    const file = event.target.files[0];
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+    if (!allowedExtensions.exec(file.name)) {
+      this.messageService.add({
+        severity: "error",
+        summary: "book",
+        detail: "Invalid file type. Please select a JPEG, PNG, or JPG file.",
+        life: 3000,
+      });
+      this.selectedFile = undefined; // Clear the selected file
+      event.target.value = null; // Clear the input element
+      return;
+    }
+    // Do something with the valid file
+    this.selectedFile = event.target.files[0];
   }
 
   get f() {
@@ -157,7 +173,8 @@ export class AdminUserComponent {
       // formData.append("password", this.f["password"].value);
       formData.append("gender", this.f["gender"].value);
       formData.append("address", this.f["address"].value);
-      // formData.append("birth_date", this.f["birth_date"].value);
+      formData.append("birth_date", this.f["birth_date"].value);
+      formData.append("is_admin", this.f["is_admin"].value);
 
       if (this.selectedFile) {
         formData.append("image_url", this.selectedFile, this.selectedFile.name);
@@ -173,6 +190,7 @@ export class AdminUserComponent {
               this._UserService.getAllUser().subscribe((user) => {
                 this.users = user;
               })
+              this
               this.messageService.add({
                 severity: "success",
                 summary: "Successful",
@@ -213,6 +231,7 @@ export class AdminUserComponent {
         password: "",
         gender: "",
         image_url: "",
+        is_admin: false,
       };
     }
   }

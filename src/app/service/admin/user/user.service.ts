@@ -26,6 +26,9 @@ export class UserService {
   addUser(data: any) {
     return this._HttpClient.post(`http://localhost:5000/admin/user/`, data, this.requestOptions);
   }
+  getUserByID(user_id: any) {
+    return this._HttpClient.get(`http://localhost:5000/admin/user/${user_id}`, this.requestOptions);
+  }
 
   deleteUser(user_id: any): Observable<any> {
     return this._HttpClient.delete<any>(

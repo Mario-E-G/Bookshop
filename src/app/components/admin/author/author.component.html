@@ -35,7 +35,7 @@
             <tr>
                 <td>{{author.first_name}}</td>
                 <td>{{author.last_name}}</td>
-                <td>{{author.date_of_birth | date:"dd/MM/YYYY"}}</td>
+                <td>{{author.date_of_birth | date}}</td>
                 <td><img [src]="author.image_url" [alt]="author.first_name" width="50" class="shadow-4" /></td>
                 <td>{{author.author_info}}</td>
                 <td>
@@ -74,7 +74,7 @@
             </div>
             <div class="field">
                 <label for="date_of_birth">Date Of Birth</label>
-                <input type="text" pInputText id="date_of_birth" formControlName="date_of_birth"
+                <input type="date" pInputText id="date_of_birth" formControlName="date_of_birth"
                     [(ngModel)]="author.date_of_birth" required autofocus />
             </div>
             <div class="mt-2">

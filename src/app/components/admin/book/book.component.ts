@@ -28,9 +28,13 @@ export class AdminBookComponent {
   statuses!: any[];
   selectedBook!: any;
   error!: string;
+  category_id_from_html?: any;
+  author_id_from_html?: any;
   selectedFile?: File;
   newBook: boolean = false;
   registerForm!: FormGroup;
+  selectedAuthor?: string;
+  selectedCategory?: string;
   constructor(
     private _BookService: BookService,
     private _CateService: CategoryService,
@@ -72,13 +76,13 @@ export class AdminBookComponent {
   }
 
   selectAuthor(event: any) {
-    console.log(event.target.value);
-    this.book.author_id = event.target.value;
+    this.author_id_from_html = { _id: event.target.value };
+    this.book.author_id = this.author_id_from_html
   }
 
   selectCategory(event: any) {
-    console.log(event.target.value);
-    this.book.category_id = event.target.value;
+    this.category_id_from_html = { _id: event.target.value };
+    this.book.category_id = this.category_id_from_html
   }
 
   openNew() {
@@ -88,8 +92,11 @@ export class AdminBookComponent {
       image_url: "",
       category_id: "",
       author_id: "",
-      price: ""
+      price: "",
+      book_description: ""
     };
+    this.selectedAuthor = "";
+    this.selectedCategory = "";
     this.submitted = false;
     this.newBook = true;
     this.bookDialog = true;
@@ -158,12 +165,14 @@ export class AdminBookComponent {
 
   saveBook() {
     this.submitted = true;
+
     if ((this.book?.name).trim()) {
 
       const formData = new FormData();
       formData.append("name", this.book.name);
-      formData.append("category_id", this.book.category_id);
-      formData.append("author_id", this.book.author_id);
+      formData.append("category_id", this.book.category_id._id);
+      formData.append("author_id", this.book.author_id._id);
+      formData.append("price", this.book.price);
       if (this.selectedFile) {
         formData.append("image_url", this.selectedFile, this.selectedFile.name);
       }
@@ -185,7 +194,8 @@ export class AdminBookComponent {
                 life: 3000,
               });
             },
-            error: () => {
+            error: (err) => {
+              console.log(err);
               this.messageService.add({
                 severity: "error",
                 summary: "book",
@@ -220,16 +230,17 @@ export class AdminBookComponent {
     }
 
     this.books = [...this.books];
-    this.bookDialog = false;
     this.book = {
       name: "",
       image_url: "",
       category_id: "",
       author_id: "",
-      price: ""
-
+      price: "",
+      book_description: ""
     };
-
+    this.selectedAuthor = "";
+    this.selectedCategory = "";
+    this.bookDialog = false;
   }
 
   findIndexById(id: string): number {

@@ -35,7 +35,9 @@ export class NavbarComponent {
     private elementRef: ElementRef,
     private renderer: Renderer2
   ) {
-    this.authService.currentLogUser.subscribe(() => {
+    this.authService.currentLogUser.subscribe((response) => {
+      console.log(response);
+      
       if (this.authService.currentLogUser.getValue().email === "") {
         this.islogged = false;
         // this.user = this.authService.currentLogUser.value;

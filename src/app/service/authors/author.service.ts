@@ -23,7 +23,7 @@ export class AuthorService {
       this.requestOptions
     );
   }
-  getAuthorById(author_id: any): Observable<any> {
+  getAuthorById(author_id: any): Observable<any> {    
     return this._HttpClient.get<any>(
       `http://localhost:5000/author/${author_id}`,
       this.requestOptions

@@ -16,11 +16,11 @@ export class AuthorDetailsComponent {
   book!: Ibook;
   rating: number = 3;
   starCount: number = 5;
-  
+
   constructor(
     private _authorservice: AuthorService,
     private _Router: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     this._Router.paramMap.subscribe((id) => {

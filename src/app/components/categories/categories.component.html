@@ -10,8 +10,8 @@
 
       <div class="row justify-content-center ">
         <div class="col-12 justify-content-center align-items-center d-flex my-5 animate__animated animate__fadeIn">
-          <input type="text" class="form-control mb-3 w-50 animate__animated animate__fadeIn" placeholder="Search categories..."
-            [(ngModel)]="searchTerm">
+          <input type="text" class="form-control mb-3 w-50 animate__animated animate__fadeIn"
+            placeholder="Search categories..." [(ngModel)]="searchTerm">
         </div>
         <div class="col-12 col-md-6 col-lg-4 mb-4 justify-content-center align-items-center"
           *ngFor="let category of categories | Cat_Filter:searchTerm | slice:(currentPage-1)*pageSize:currentPage*pageSize">

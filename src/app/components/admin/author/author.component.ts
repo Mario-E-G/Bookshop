@@ -29,7 +29,7 @@ export class AdminAuthorComponent {
   statuses!: any[];
   selectedAuthor!: any;
   error!: string;
-  selectedFile!: File;
+  selectedFile?: File;
   registerForm!: FormGroup;
   constructor(
     private _AuthorService: AuthorService,
@@ -113,6 +113,20 @@ export class AdminAuthorComponent {
   }
 
   onFileSelected(event: any) {
+    const file = event.target.files[0];
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+    if (!allowedExtensions.exec(file.name)) {
+      this.messageService.add({
+        severity: "error",
+        summary: "book",
+        detail: "Invalid file type. Please select a JPEG, PNG, or JPG file.",
+        life: 3000,
+      });
+      this.selectedFile = undefined; // Clear the selected file
+      event.target.value = null; // Clear the input element
+      return;
+    }
+    // Do something with the valid file
     this.selectedFile = event.target.files[0];
   }
 
@@ -196,7 +210,7 @@ export class AdminAuthorComponent {
         _id: "",
         first_name: "",
         last_name: "",
-        date_of_birth:"",
+        date_of_birth: "",
         image_url: "",
         author_info: "",
       };

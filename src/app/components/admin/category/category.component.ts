@@ -31,7 +31,7 @@ export class AdminCategoryComponent {
   selectedCategory!: ICategory;
   error!: string;
   registerForm!: FormGroup;
-  selectedFile!: File;
+  selectedFile?: File;
   constructor(
     private _CategoryService: CategoryService,
     private messageService: MessageService,
@@ -135,7 +135,21 @@ export class AdminCategoryComponent {
   }
 
   onFileSelected(event: any) {
-    this.selectedFile = <File>event.target.files[0];
+    const file = event.target.files[0];
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+    if (!allowedExtensions.exec(file.name)) {
+      this.messageService.add({
+        severity: "error",
+        summary: "book",
+        detail: "Invalid file type. Please select a JPEG, PNG, or JPG file.",
+        life: 3000,
+      });
+      this.selectedFile = undefined; // Clear the selected file
+      event.target.value = null; // Clear the input element
+      return;
+    }
+    // Do something with the valid file
+    this.selectedFile = event.target.files[0];
   }
 
   get f() {

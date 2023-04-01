@@ -37,9 +37,6 @@ export class BooksService {
 
 
   getBookRate(book_id: any, user_id: any): Observable<any> {
-    console.log(user_id);
-    console.log(book_id);
-    
     return this._HttpClient.get(
       `http://localhost:5000/bookreview/rate/${book_id}/${user_id}`,
       this.requestOptions
@@ -109,6 +106,11 @@ export class BooksService {
       this.requestOptions
     );
   }
+
+  popularBooks(): Observable<any> {
+    return this._HttpClient.get<any>("http://localhost:5000/popularbook");
+  }
+
 
   // getBookReviews(book_id: any): Observable<bookReview[]> {
   //   return this._HttpClient.get<bookReview[]>(

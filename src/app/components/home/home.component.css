@@ -66,6 +66,46 @@
   box-shadow: #a9a9a9 1px 1px 10px;
 }
 
+.carousel-caption {
+  /* position: absolute; */
+  top: 0;
+  display: flex;
+  justify-content:baseline ;
+  align-items: center;
+  animation-name: changeText;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+
+.carousel-caption h1 {
+  font-size: 5rem;
+  color: #0e0707;
+  text-align: left;
+  font-weight: bold lighter;
+  font-style: inherit;
+  text-shadow: 1px 1px #000;
+}
+
+.carousel-caption span {
+  color: hsl(0, 55%, 60%);
+  /* color: hsl(0, 60%, 61%); */
+}
+.text-block {
+  position: absolute;
+  top: 160px;
+  right: 20px;
+  color: rgb(13, 6, 6);
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.text-black {
+
+  font-size: 2rem;
+  font-weight:bold ;
+  text-align: left;
+
+}
+
 @media (min-width: 768px) {
   .custom-card {
     max-width: 200px;
