@@ -1,4 +1,4 @@
-<div class="container-fluid my-2">
+<div class="container-fluid my-2 ">
   <div class="slider-wrapper">
 
     <div id="imageCarousel" class="carousel slide" data-ride="carousel">
@@ -7,11 +7,17 @@
           (click)="currentImageIndex = i"></li>
       </ol>
       <div class="carousel-inner">
-        <div class="slider-text">
+       <!-- <div class="slider-text">
           <h2>Welcome to our Project</h2>
-        </div>
+       </div>  -->
         <div *ngFor="let image of images; let i = index" class="carousel-item" [class.active]="i === currentImageIndex">
           <img class="d-block w-100 img-fluid " [src]="image" alt="Slide {{i+1}} ">
+            <div class="carousel-caption ">
+
+            <h1> Read <span> Your</span> <br> Favorite <span>
+               Book</span> <br> From  <span> Here</span>
+            </h1>
+
         </div>
       </div>
       <a class="carousel-control-prev" (click)="previousImage()" role="button" data-slide="prev">
@@ -52,26 +58,14 @@
   </div>
 </div>
 
-
-<div class="container-fluid  my-2 ">
-  <div class="row">
-    <div class="col-12 text-center">
-      <h1>
-        <span class="text-black">STAY WITH US</span>
-      </h1>
-      <p>Register to our BookShop now and stay up-to-date with new books!</p>
-    </div>
+  <div class="container">
+    <img src="../../../assets/section2.jpg" alt="" style="width:100%;">
+    <div class="text-block">
+      <h1 class="text-black">STAY WITH US</h1> 
+      <p>Register to our BookShop now and stay up-to-date with new books and<br> the latest lookbooks and exclusive offers </p>
+       <br>
+      <button style="height: 50px; width: 120px;   padding: 5px;"  routerLink="/register" type="submit" class="btn btn-dark tn-lg outline-dark">Register Now</button>
   </div>
-  <div class="row ">
-    <div class="col-12 w-100">
-      <div>
-        <img class="w-100" src="../../../assets/section2.jpg" alt="">
-      </div>
-    </div>
-  </div>
-</div>
-
-
 
 <div class="container-fluid">
 
