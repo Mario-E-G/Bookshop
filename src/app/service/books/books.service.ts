@@ -96,12 +96,14 @@ export class BooksService {
     );
   }
 
-  deleteReviewText(review_id: any): Observable<any> {
-    return this._HttpClient.delete(`http://localhost:5000/profile/bookreview/review/${review_id}`,
+  deleteReviewText(review_id: any, book_id: any): Observable<any> {
+    return this._HttpClient.delete(`http://localhost:5000/profile/bookreview/review/${review_id}/${book_id}`,
       this.requestOptions
     );
   }
   updateReviewText(newReview: any, review_id: any): Observable<bookReview> {
+    console.log(review_id);
+    
     return this._HttpClient.patch(`http://localhost:5000/profile/bookreview/review/${review_id}`, newReview,
       this.requestOptions
     );

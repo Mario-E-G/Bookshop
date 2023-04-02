@@ -1,12 +1,16 @@
+import { TitleCasePipe } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { MessageService } from "primeng/api";
 import { AuthService } from "src/app/service/authentication/auth.service";
 
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.css"],
+  providers: [MessageService],
+
 })
 export class LoginComponent {
   email!: string;
@@ -21,8 +25,9 @@ export class LoginComponent {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private _AuthService: AuthService
-  ) {}
+    private _AuthService: AuthService,
+    private messageService: MessageService
+  ) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -49,7 +54,7 @@ export class LoginComponent {
         this._AuthService.detachToken();
 
         this.user = this._AuthService.currentLogUser.value;
-        console.log("user: --> :", this.user);
+        // console.log("user: --> :", this.user);
         if (this.user.is_admin == true) {
           this.router.navigate(["/admin/home"]);
         } else {
@@ -57,7 +62,13 @@ export class LoginComponent {
         }
       },
       error: (err) => {
-        this.error = err.error.Message;
+        this.messageService.add({
+          severity: "error",
+          summary: "Login Failed",
+          detail: `${err.error.Message}`,
+          life: 3000,
+        });
+        // this.error = err.error.Message;
       },
     });
 

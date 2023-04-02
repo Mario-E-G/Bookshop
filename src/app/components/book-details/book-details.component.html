@@ -1,21 +1,22 @@
+<p-toast></p-toast>
+
+
 <div class="container">
   <div class="row">
     <div class="col-12">
-
       <p *ngIf="!book" [ngClass]="{'alert': true, 'alert-secondary': true, 'text-center': true, 'my-3': true}">
         Unfortunately, No details for this book.
       </p>
-
     </div>
   </div>
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-12">
       <p *ngIf="!isLogged && added; haveTheBook" class="alert alert-warning text-center my-2">
         {{ error | titlecase }}
       </p>
     </div>
-  </div>
-  <div class="row">
+  </div> -->
+  <!-- <div class="row">
     <div class="col-12">
       <div class="alert alert-warning text-center my-2 d-flex align-items-center justify-content-between"
         *ngIf="haveTheBook">
@@ -25,7 +26,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
 
 <div class="container">
@@ -33,18 +34,15 @@
     <div class="col-12 col-md-6 col-5 text-center">
       <img class="book-image w-100" [src]="book?.book?.image_url" alt="{{ book?.book?.name }}" />
       <div class="d-flex align-items-center justify-content-center">
-        <p-rating class="" [readonly]="user.email == ''" [(ngModel)]="rating.rate"
+        <p-rating class="" [readonly]="user.email == ''" [(ngModel)]="rating"
           (ngModelChange)="onRatingChanged($event)"></p-rating>
         <span class="mx-2 mb-1">({{ book?.totalRates }})</span>
       </div>
     </div>
 
     <div class="col-12 col-md-6">
-
       <div>
-
         <div class="middle">
-
           <h1>{{ book?.book?.name }}</h1>
           <div class="my-3">
             <a routerLink="/author/{{book?.book?.author_id._id}}" class="text-center">
@@ -60,16 +58,12 @@
               </h6>
             </a>
           </div>
-
-
           <div class="book-rate mt-3">
-            <p-rating [(ngModel)]="book.avg_rate.avg_val" [readonly]="true" [cancel]="false"></p-rating>
+            <p-rating [(ngModel)]="book?.avg_rate.avg_val" [readonly]="true" [cancel]="false"></p-rating>
           </div>
           <div class="book-desc mt-2">
             <p>{{ book?.book?.book_description }}</p>
           </div>
-
-
           <div class="author_info  d-flex align-items-center">
             <div>
               <p style="font-weight: bold">PUBLISHER</p>
@@ -87,14 +81,13 @@
             </div>
           </div>
         </div>
-
         <div class="row justify-content-start">
           <div class="col-md-5 py-1 my-2 text-center">
             <a class="btn btn-outline-primary" (click)="addReview()">Add to read</a>
           </div>
           <div class="col-md-5 my-2">
             <select #status (change)="changeStatus(status.value)" class="form-select selectpicker" id="status"
-              data-style="btn-primary" data-width="fit" data-show-icon="true" [disabled]="!isLogged && added">
+              data-style="btn-primary" data-width="fit" data-show-icon="true" [disabled]="!isLogged">
               <option value="new" default data-icon="bi-bookmark-check">
                 New
               </option>
@@ -108,9 +101,6 @@
             </select>
           </div>
         </div>
-
-
-
       </div>
     </div>
   </div>
@@ -156,7 +146,7 @@
           </div>
           <div class="edit_delete d-flex align-items-center">
             <a class="btn btn-warning mx-2" [hidden]="user.user_id !== review.user_id._id"
-              (click)="onUpdateReviewText()"><mat-icon class="py-1">edit note</mat-icon></a>
+              (click)="onUpdateReviewText(review._id)"><mat-icon class="py-1">edit note</mat-icon></a>
             <a class="btn btn-danger" (click)="onDeleteReviewText(review._id)"
               [hidden]="user.user_id !== review.user_id._id"><mat-icon class="py-1">delete</mat-icon></a>
           </div>
@@ -172,7 +162,7 @@
                       style="padding: 12px 20px;border-radius:10px;"></textarea>
                     <br>
                     <button class="btn btn-outline-success my-2" type="submit" [disabled]="!isLogged && added"
-                      (click)="updateReview(ta,review._id)" (visible)="!showReviewForUpdate">Update review</button>
+                      (click)="updateReview(ta)" (visible)="!showReviewForUpdate">Update review</button>
                   </form>
                 </div>
               </p-dialog>
@@ -187,5 +177,5 @@
     </div>
   </div>
 </div>
-
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
 <app-footer></app-footer>

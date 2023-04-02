@@ -46,7 +46,7 @@
       *ngFor="let book of books">
       <div class="card mb-4 mx-2 my-2 custom-card">
         <a routerLink="/book-details/{{ book._id }}"> <img [src]="book.image_url" alt="{{ book.name }}"
-            class="card-img-top img-fluid"></a>
+            class="card-img-top img-fluid" style="border-radius: 10px;width:200px; height:40vh;"></a>
         <div class="card-body">
           <h4 class="card-title text-center">{{ book?.name }}</h4>
           <p class="card-text text-center">{{ book?.author_id?.first_name }}</p>
@@ -80,7 +80,7 @@
     </div>
 
     <div class="row text-center">
-      <div class="col-12 col-md-4 text-center" *ngFor="let book of books">
+      <div class="col-12 col-md-4 text-center" *ngFor="let book of popularBooks">
         <div>
           <a routerLink="/book-details/{{ book._id }}"> <img style="border-radius: 10px;width:200px; height:40vh;"
               [src]="book.image_url" alt="{{ book.name }}" /></a>
@@ -98,7 +98,7 @@
 
 
 
-  <div class="container-fluid my-5 py-5">
+  <div class="container-fluid mt-5 py-5 bg-light">
     <div class="row">
       <div class="col-12 text-center d-flex justify-content-center align-items-center">
         <div>

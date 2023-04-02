@@ -3,11 +3,14 @@ import { Iauthor } from "../interface/author";
 import { AuthorService } from "src/app/service/authors/author.service";
 import { ActivatedRoute } from "@angular/router";
 import { Ibook } from "../interface/book";
+import { MessageService } from "primeng/api";
 
 @Component({
   selector: "app-author-details",
   templateUrl: "./author-details.component.html",
   styleUrls: ["./author-details.component.css"],
+  providers: [MessageService],
+
 })
 export class AuthorDetailsComponent {
   _id!: any;

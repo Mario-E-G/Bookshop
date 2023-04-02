@@ -30,6 +30,7 @@ export class BookDetailsComponent {
   visible!: boolean;
   showReviewForUpdate!: boolean;
   txtareavalue!: any;
+  review_id_for_operation?: string;
   starColor: StarRatingColor = StarRatingColor.accent;
   starColorP: StarRatingColor = StarRatingColor.primary;
   starColorW: StarRatingColor = StarRatingColor.warn;
@@ -40,7 +41,6 @@ export class BookDetailsComponent {
     private _UserService: AuthService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-
   ) {
     this._UserService.currentLogUser.subscribe((user) => {
       this.user = user;
@@ -75,13 +75,13 @@ export class BookDetailsComponent {
         this.reviews = reviews;
       },
       error: (err) => {
-        this.error = err.error.Message;
-        this.messageService.add({
-          severity: "error",
-          summary: "Reviews",
-          detail: "No Reviews Found",
-          life: 3000,
-        });
+        // this.error = err.error.Message;
+        // this.messageService.add({
+        //   severity: "error",
+        //   summary: "Reviews",
+        //   detail: "No Reviews Found",
+        //   life: 3000,
+        // });
       },
     });
   }
@@ -91,8 +91,13 @@ export class BookDetailsComponent {
   }
 
   onRatingChanged(rating: any) {
+    if (rating === null) {
+      rating = 0;
+    }
     const rate = { rate: rating };
     this.rating = rating;
+    console.log(rate);
+
 
     this._BookService
       .updateBook(rate, this.book_id)
@@ -195,6 +200,8 @@ export class BookDetailsComponent {
       });
       this.visible = false;
     }
+    newReview.value = "";
+
   }
 
   addReview() { // add book to shelf
@@ -209,20 +216,18 @@ export class BookDetailsComponent {
           });
         },
         error: (err) => {
-          this.haveTheBook = true;
+          // this.haveTheBook = true;
           this.messageService.add({
             severity: "error",
             summary: "Book",
-            detail: `You have to login first`,
+            detail: `${err.error.Message}`,
             life: 3000,
           });
           // this.error = err.error.Message;
-          // console.log(err.error.Message);
         },
       });
       this.visible = false;
     } else {
-      this.added = true;
       this.messageService.add({
         severity: "error",
         summary: "Book",
@@ -234,12 +239,14 @@ export class BookDetailsComponent {
   }
 
   onDeleteReviewText(review_id: any) {
+    console.log(review_id);
+
     this.confirmationService.confirm({
-      message: "Are you sure you want to delete " + review_id + "?",
+      message: "Are you sure you want to delete ?",
       header: "Confirm",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
-        this._BookService.deleteReviewText(review_id).subscribe({
+        this._BookService.deleteReviewText(review_id, this.book_id).subscribe({
           next: (newreview) => {
 
             this.reviews = newreview.review;
@@ -250,19 +257,19 @@ export class BookDetailsComponent {
               detail: `Review Delete`,
               life: 3000,
             });
-            this._BookService.getAllReviewForSpecificBook(this.book_id).subscribe({
-              next: (reviews) => {
-                this.reviews = reviews;
-              },
-              error: (err) => {
-                this.messageService.add({
-                  severity: "error",
-                  summary: "Review",
-                  detail: `Couldn't Retreive Old Reviews --> ${err.error.Message}`,
-                  life: 3000,
-                });
-              },
-            });
+            // this._BookService.getAllReviewForSpecificBook(this.book_id).subscribe({
+            //   next: (reviews) => {
+            //     this.reviews = reviews;
+            //   },
+            //   error: (err) => {
+            //     this.messageService.add({
+            //       severity: "error",
+            //       summary: "Review",
+            //       detail: `Couldn't Retreive Old Reviews --> ${err.error.Message}`,
+            //       life: 3000,
+            //     });
+            //   },
+            // });
           },
           error: (err) => {
             this.messageService.add({
@@ -278,13 +285,17 @@ export class BookDetailsComponent {
 
   }
 
-  onUpdateReviewText() {
+  onUpdateReviewText(review_id: any) {
+    console.log(review_id);
+    this.review_id_for_operation = review_id;
+
     this.showReviewForUpdate = true;
   }
 
-  updateReview(newReview: any, review_id: any) {
+  updateReview(newReview: any) {
     const newRev = { review: newReview.value };
-    this._BookService.updateReviewText(newRev, review_id).subscribe({
+
+    this._BookService.updateReviewText(newRev, this.review_id_for_operation).subscribe({
       next: (review) => {
         this.messageService.add({
           severity: "success",
@@ -317,5 +328,6 @@ export class BookDetailsComponent {
         this.showReviewForUpdate = false;
       }
     })
+    newReview.value = ""
   }
 }
